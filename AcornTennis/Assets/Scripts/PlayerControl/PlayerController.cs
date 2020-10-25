@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Class dedicated to single player control
+/// Physics slowing is also controlled here. Make sure objects to slow physics on is in layer 8
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
 
@@ -24,17 +29,25 @@ public class PlayerController : MonoBehaviour
     public delegate void OnLeftUp();
     public delegate void OnRightDown();
     public delegate void OnRightUp();
+    public delegate void OnShiftDown();
+    public delegate void OnShiftUp();
 
     public OnLeftDown onLeftDown;
     public OnLeftUp onLeftUp;
     public OnRightUp onRightUp;
     public OnRightDown onRightDown;
+    public OnShiftUp onShiftUp;
+    public OnShiftDown onShiftDown;
 
+
+    public float slowRadius = 2;
+    public float slowMultiplier = 0.5f;
     public bool screenlock;
 
     public void Start()
     {
         StartCoroutine(update());
+        StartCoroutine(slowTimeController());
     }
 
     public void OnDestroy()
@@ -77,12 +90,14 @@ public class PlayerController : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 screenlock = true;
+                onShiftDown?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 screenlock = false;
+                onShiftUp?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -122,4 +137,82 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
+
+    IEnumerator slowTimeController()
+    {
+        while (true)
+        {
+            while (!screenlock)
+            {
+                yield return null;
+            }
+
+            //Capture all local rigidbodies, slow down time on them
+
+            List<Rigidbody> bodies = new List<Rigidbody>();
+            List<Vector3> velocities = new List<Vector3>();
+            List<Vector3> positions = new List<Vector3>();
+
+            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius);
+
+            if (results.Length > 0)
+            {
+                foreach (Collider hit in results)
+                {
+                    print(hit.name);
+                    Rigidbody rb = hit.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        print(rb.name);
+                        bodies.Add(rb);
+                    }
+                }
+
+                //Capture time sequence
+                foreach (Rigidbody rb in bodies)
+                {
+                    velocities.Add(rb.velocity);
+                    positions.Add(rb.position);
+                    rb.useGravity = false;
+                    rb.velocity = Vector3.zero;
+                }
+
+                //Iterate through time, slow motion
+                while (screenlock)
+                {
+                    float delta = Time.fixedDeltaTime * slowMultiplier;
+                    for (int i = 0; i < bodies.Count; i++)
+                    {
+                        positions[i] = positions[i] + velocities[i] * delta;
+                        bodies[i].position = positions[i];
+
+                        velocities[i] = velocities[i] + Physics.gravity * delta;
+                        bodies[i].velocity = velocities[i];
+                    }
+                    yield return new WaitForFixedUpdate();
+                }
+
+                //Reset time sequence
+                for (int i = 0; i < bodies.Count; i++)
+                {
+                    bodies[i].useGravity = true;
+                    bodies[i].velocity = velocities[i];
+                    bodies[i].position = positions[i];
+                }
+
+                bodies.Clear();
+                velocities.Clear();
+                positions.Clear();
+            }
+            else
+            {
+                while (screenlock)
+                {
+                    yield return null;
+                }
+            }
+
+        }
+    }
+
 }

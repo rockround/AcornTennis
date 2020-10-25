@@ -7,14 +7,14 @@ using UnityEngine.Rendering.Universal;
 public class SwingController : MonoBehaviour
 {
     public PlayerController controller;
-    public Transform swingObject;
-    public GameObject swingScreen;
 
     public Volume volume;
     Vignette vignette;
     public float unfocusedVignette;
     public float focusedVignette;
     public float focusTime = 0.5f;
+    public SwingMotion motion;
+    public Transform rotationCenter;
 
     bool lockSequence = false;
     // Start is called before the first frame update
@@ -23,6 +23,8 @@ public class SwingController : MonoBehaviour
         volume.profile.TryGet(out vignette);
         controller.onShiftDown += onLockOn;
         controller.onShiftUp += onLockOff;
+        controller.onLeftUp += onReleaseSwing;
+        controller.onLeftDown += onSwing;
     }
 
     // Update is called once per frame
@@ -61,15 +63,22 @@ public class SwingController : MonoBehaviour
             vignette.intensity.value = currentVignette;
             yield return null;
         }
-        if (isTo)
-        {
-            swingScreen.SetActive(true);
-        }
-        else
-        {
-            swingScreen.SetActive(false);
-        }
+
         lockSequence = false;
+    }
+    void onSwing()
+    {
+        Vector3 startPoint = Camera.main.WorldToScreenPoint(rotationCenter.position);
+        Vector2 mouseScreenPos = Vector2.Scale(Input.mousePosition - startPoint, new Vector3(1f/Screen.width, 1f/Screen.height));
+        mouseScreenPos = new Vector2(-mouseScreenPos.y, mouseScreenPos.x);
+        //float dist = mouseScreenPos.magnitude;
+        //Vector2 dir = mouseScreenPos.normalized;
+
+       motion.swing(mouseScreenPos);
+    }
+    void onReleaseSwing()
+    {
+        motion.release();
     }
     void onLockOn()
     {
@@ -78,31 +87,5 @@ public class SwingController : MonoBehaviour
     void onLockOff()
     {
         StartCoroutine(focusAnimation(false));
-    }
-
-    void swingTL()
-    {
-
-    }
-    void swingL()
-    {
-
-    }
-    void swingBL()
-    {
-
-    }
-
-    void swingTR()
-    {
-
-    }
-    void swingR()
-    {
-
-    }
-    void swingBR()
-    {
-
     }
 }

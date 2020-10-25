@@ -159,11 +159,9 @@ public class PlayerController : MonoBehaviour
             {
                 foreach (Collider hit in results)
                 {
-                    print(hit.name);
                     Rigidbody rb = hit.GetComponent<Rigidbody>();
                     if (rb != null)
                     {
-                        print(rb.name);
                         bodies.Add(rb);
                     }
                 }
@@ -183,9 +181,10 @@ public class PlayerController : MonoBehaviour
                     float delta = Time.fixedDeltaTime * slowMultiplier;
                     for (int i = 0; i < bodies.Count; i++)
                     {
-                        positions[i] = positions[i] + velocities[i] * delta;
-                        float position_y = Mathf.Max(1.01f,positions[i].y);
-                        bodies[i].position = new Vector3(positions[i].x, position_y, positions[i].z);
+                        Vector3 rawResult = positions[i] + velocities[i] * delta;
+                        float position_y = Mathf.Max(1.05f,positions[i].y);
+                        positions[i] = new Vector3(rawResult.x, position_y, rawResult.z);
+                        bodies[i].position = positions[i];
 
                         velocities[i] = velocities[i] + Physics.gravity * delta;
                         bodies[i].velocity = velocities[i];

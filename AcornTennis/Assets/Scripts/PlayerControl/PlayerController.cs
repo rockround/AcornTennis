@@ -184,7 +184,8 @@ public class PlayerController : MonoBehaviour
                     for (int i = 0; i < bodies.Count; i++)
                     {
                         positions[i] = positions[i] + velocities[i] * delta;
-                        bodies[i].position = positions[i];
+                        float position_y = Mathf.Max(1.01f,positions[i].y);
+                        bodies[i].position = new Vector3(positions[i].x, position_y, positions[i].z);
 
                         velocities[i] = velocities[i] + Physics.gravity * delta;
                         bodies[i].velocity = velocities[i];

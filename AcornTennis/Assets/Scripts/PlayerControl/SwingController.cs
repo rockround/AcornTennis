@@ -21,7 +21,6 @@ public class SwingController : MonoBehaviour
     void Start()
     {
         volume.profile.TryGet(out vignette);
-        controller.onLeftDown += onSwing;
         controller.onShiftDown += onLockOn;
         controller.onShiftUp += onLockOff;
     }
@@ -80,18 +79,25 @@ public class SwingController : MonoBehaviour
     {
         StartCoroutine(focusAnimation(false));
     }
-    void onSwing()
-    {
-    }
+
     void swingTL()
     {
 
     }
-    void swingTR()
+    void swingL()
     {
 
     }
     void swingBL()
+    {
+
+    }
+
+    void swingTR()
+    {
+
+    }
+    void swingR()
     {
 
     }

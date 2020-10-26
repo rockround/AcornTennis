@@ -67,13 +67,48 @@ public class SwingController : MonoBehaviour
     }
     void onSwing()
     {
-        Vector3 startPoint = Camera.main.WorldToScreenPoint(swingObject.position);
-        Vector2 mouseScreenPos = Vector2.Scale(Input.mousePosition - startPoint, new Vector3(1f/Screen.width, 1f/Screen.height));
-        mouseScreenPos = new Vector2(-mouseScreenPos.y, mouseScreenPos.x);
+        //Vector3 startPoint = Camera.main.WorldToScreenPoint(swingObject.position);
+        Vector2 mouseScreenPos = Vector2.Scale(Input.mousePosition, new Vector3(1f / Screen.width, 1f / Screen.height)) - new Vector2(0.5f, 0.5f);
+        //mouseScreenPos = new Vector2(-mouseScreenPos.y, mouseScreenPos.x);
+        Vector3 swingRotation;
+
+        //If want to use raw, must set swingRotation to mouseScreenPos
+        ///Used to discretize motion
+        if (mouseScreenPos.x > 0)
+        {
+            if (Mathf.Abs(mouseScreenPos.y) < 0.2f)
+            {
+                swingRotation = new Vector3(0, .5f, 0);
+            }
+            else if (mouseScreenPos.y > 0)
+            {
+                swingRotation = new Vector3(-.2f, .5f, 0);
+            }
+            else
+            {
+                swingRotation = new Vector3(.3f, .5f, 0);
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(mouseScreenPos.y) < 0.2f)
+            {
+                swingRotation = new Vector3(0, -.5f, 0);
+            }
+            else if (mouseScreenPos.y > 0)
+            {
+                swingRotation = new Vector3(-.2f, -.5f, 0);
+            }
+            else
+            {
+                swingRotation = new Vector3(.3f, -.5f, 0);
+            }
+        }
+
         //float dist = mouseScreenPos.magnitude;
         //Vector2 dir = mouseScreenPos.normalized;
 
-       motion.swing(mouseScreenPos, new Vector3(startPoint.x - mouseScreenPos.x,startPoint.y - mouseScreenPos.y,-.1f));
+        motion.swing(swingRotation, new Vector3(0.5f - mouseScreenPos.x, 0.5f - mouseScreenPos.y, -.1f));
     }
     void onReleaseSwing()
     {

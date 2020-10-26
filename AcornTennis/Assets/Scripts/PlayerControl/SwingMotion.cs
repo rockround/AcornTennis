@@ -8,33 +8,44 @@ public class SwingMotion : MonoBehaviour
     Quaternion finalRight;
     Quaternion targetRotation;
     Quaternion neutralRotation;
-    Quaternion neutralBatRotation;
+    Quaternion neutralRacketRotation;
+    Vector3 neutralRacketPosition;
     public Transform swingObject;
+    public Rigidbody racketBody;
+    public Transform handle;
     public float rotationScale;
     public float swingVelocity;
     public float windVelocity;
-
+    float angularVelocity;
+    bool swinging;
+    int currentSwingSign;
     // Start is called before the first frame update
     void Start()
     {
         neutralRotation = transform.localRotation;
-        neutralBatRotation = swingObject.localRotation;
+        neutralRacketRotation = swingObject.localRotation;
+        neutralRacketPosition = swingObject.localPosition;
         StartCoroutine(swing());
     }
-
+    private void FixedUpdate()
+    {
+        swingObject.localRotation = neutralRacketRotation;
+        swingObject.localPosition = neutralRacketPosition;
+    }
     internal void swing(Vector3 rotationEuler, Vector3 finalRightDirection)
     {
         if (!windBack)
         {
-            int sign =  rotationEuler.y > 0 ? -1 : 1;
-            finalRight = Quaternion.FromToRotation(sign * Vector3.right, finalRightDirection);// * neutralBatRotation;
+            currentSwingSign = rotationEuler.y > 0 ? -1 : 1;
+            finalRight = Quaternion.FromToRotation(currentSwingSign * Vector3.right, finalRightDirection);// * neutralBatRotation;
             targetRotation = Quaternion.Euler(rotationEuler * rotationScale);
             windBack = true;
+            swinging = true;
         }
     }
     internal void release()
     {
-        finalRight = neutralBatRotation;
+        finalRight = neutralRacketRotation;
         targetRotation = neutralRotation;
         windBack = false;
     }
@@ -52,6 +63,7 @@ public class SwingMotion : MonoBehaviour
             float timeTaken = diff / windVelocity;
             float startTime = Time.fixedTime;
             float endTime = startTime + timeTaken;
+            angularVelocity = windVelocity * Mathf.Deg2Rad * currentSwingSign;
             while (Time.fixedTime < endTime && windBack)
             {
                 float progress = (Time.fixedTime - startTime) / timeTaken;
@@ -72,7 +84,7 @@ public class SwingMotion : MonoBehaviour
             timeTaken = diff / swingVelocity;
             startTime = Time.fixedTime;
             endTime = startTime + timeTaken;
-
+            angularVelocity = swingVelocity * Mathf.Deg2Rad * -currentSwingSign;
             while (Time.fixedTime < endTime)
             {
                 float progress = (Time.fixedTime - startTime) / timeTaken;
@@ -81,7 +93,19 @@ public class SwingMotion : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
             //swingObject.localRotation = neutralBatRotation;
-
+            swinging = false;
         }
+    }
+    internal void OnCollisionEnter(Collision collision)
+    {
+
+        Vector3 normal = collision.contacts[0].normal;
+        Vector3 position = collision.contacts[0].point;
+        Rigidbody other = collision.rigidbody;
+        float torqueArm = (position - handle.position).magnitude;
+        Vector3 batMomentum = -torqueArm * angularVelocity * normal * racketBody.mass;
+        Vector3 otherMomentum = other.velocity * other.mass;
+        Vector3 finalVelocity = (batMomentum + otherMomentum) / (other.mass + racketBody.mass);
+        other.velocity = finalVelocity;
     }
 }

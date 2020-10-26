@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public float jumpAccelerationTime = 0.5f;
     public float jumpMaxAcceleration = 12;
 
-    bool currentlyJumping = false;
+    bool canJump = false;
     public float restHeight = .385f;
     public float legSpringConstant = 10;
     public Transform cameraTransform;
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //bodyRB.velocity += Vector3.up * jumpHeight;
-                if (!currentlyJumping)
+                if (!canJump)
                     StartCoroutine(invokeJump());
             }
 
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator invokeJump()
     {
-        currentlyJumping = true;
+        canJump = true;
         float startTime = Time.fixedTime;
         float endTime = startTime + jumpAccelerationTime;
         float offset = calculateDipAccelerateOffset();
@@ -191,7 +191,6 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         bodyRB.useGravity = true;
-        currentlyJumping = false;
     }
     float calculateDipAccelerateOffset()
     {
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour
             List<Vector3> realVelocities = new List<Vector3>();
             List<Vector3> positions = new List<Vector3>();
 
-            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius);
+            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius,8);
 
             if (results.Length > 0)
             {
@@ -292,7 +291,10 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-
+        if(collision.collider.name == "Ground")
+        {
+            canJump = false;
+        }
     }
 
 }

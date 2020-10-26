@@ -29,7 +29,6 @@ public class SwingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
     IEnumerator focusAnimation(bool isTo)
     {

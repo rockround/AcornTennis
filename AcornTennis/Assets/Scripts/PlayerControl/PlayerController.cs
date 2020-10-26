@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnDestroy()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
     }
     // Update is called once per frame
     public IEnumerator update()
@@ -87,15 +87,15 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                //Cursor.lockState = CursorLockMode.None;
+                //Cursor.visible = true;
                 screenlock = true;
                 onShiftDown?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                //Cursor.lockState = CursorLockMode.Confined;
+                //Cursor.visible = false;
                 screenlock = false;
                 onShiftUp?.Invoke();
             }
@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviour
 
             List<Rigidbody> bodies = new List<Rigidbody>();
             List<Vector3> velocities = new List<Vector3>();
+            List<Vector3> realVelocities = new List<Vector3>();
             List<Vector3> positions = new List<Vector3>();
 
             Collider[] results = Physics.OverlapSphere(transform.position, slowRadius);
@@ -170,11 +171,11 @@ public class PlayerController : MonoBehaviour
                 foreach (Rigidbody rb in bodies)
                 {
                     velocities.Add(rb.velocity);
+                    realVelocities.Add(rb.velocity);
                     positions.Add(rb.position);
                     rb.useGravity = false;
                     rb.velocity = Vector3.zero;
                 }
-
                 //Iterate through time, slow motion
                 while (screenlock)
                 {
@@ -187,6 +188,7 @@ public class PlayerController : MonoBehaviour
                         bodies[i].position = positions[i];
 
                         velocities[i] = velocities[i] + Physics.gravity * delta;
+                        realVelocities[i] = realVelocities[i] + Physics.gravity * Time.fixedDeltaTime;
                         bodies[i].velocity = velocities[i];
                     }
                     yield return new WaitForFixedUpdate();
@@ -196,12 +198,14 @@ public class PlayerController : MonoBehaviour
                 for (int i = 0; i < bodies.Count; i++)
                 {
                     bodies[i].useGravity = true;
-                    bodies[i].velocity = velocities[i];
+
+                    bodies[i].velocity = realVelocities[i];
                     bodies[i].position = positions[i];
                 }
 
                 bodies.Clear();
                 velocities.Clear();
+                realVelocities.Clear();
                 positions.Clear();
             }
             else

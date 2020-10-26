@@ -14,8 +14,7 @@ public class SwingController : MonoBehaviour
     public float focusedVignette;
     public float focusTime = 0.5f;
     public SwingMotion motion;
-    public Transform rotationCenter;
-
+    public Transform swingObject;
     bool lockSequence = false;
     // Start is called before the first frame update
     void Start()
@@ -68,13 +67,13 @@ public class SwingController : MonoBehaviour
     }
     void onSwing()
     {
-        Vector3 startPoint = Camera.main.WorldToScreenPoint(rotationCenter.position);
+        Vector3 startPoint = Camera.main.WorldToScreenPoint(swingObject.position);
         Vector2 mouseScreenPos = Vector2.Scale(Input.mousePosition - startPoint, new Vector3(1f/Screen.width, 1f/Screen.height));
         mouseScreenPos = new Vector2(-mouseScreenPos.y, mouseScreenPos.x);
         //float dist = mouseScreenPos.magnitude;
         //Vector2 dir = mouseScreenPos.normalized;
 
-       motion.swing(mouseScreenPos);
+       motion.swing(mouseScreenPos, new Vector3(startPoint.x - mouseScreenPos.x,startPoint.y - mouseScreenPos.y,-.1f));
     }
     void onReleaseSwing()
     {

@@ -14,13 +14,8 @@ public class TreeGrowth : MonoBehaviour
     public float saplingScale = 1;
     public float grownScale = 2;
     public float matureScale = 3;
-    public float trunkGirthRate = 0.5f;
-    public float trunkHeightRate = 1.5f;
-    public float capGirthRate = 1.5f;
-    public float capHeightRate = 0.9f;
 
-    public Transform treeTrunk;
-    public Transform treeCap;
+    public Collider leafArea;
 
     public delegate void OnStateChanged(GrowthState newState);
     public OnStateChanged onStateChanged;
@@ -70,9 +65,6 @@ public class TreeGrowth : MonoBehaviour
         yield return new WaitUntil(() => grow == true);
         grow = false;
 
-        //Adjust proportional growth rate
-        //treeTrunk.localScale = Vector3.Scale(treeTrunk.localScale, new Vector3(trunkGirthRate, trunkHeightRate, trunkGirthRate));
-        treeCap.localScale = Vector3.Scale(treeCap.localScale, new Vector3(capGirthRate, capHeightRate, capGirthRate));
 
         startTime = Time.fixedTime;
         endTime = startTime + growthTime;
@@ -92,9 +84,6 @@ public class TreeGrowth : MonoBehaviour
         yield return new WaitUntil(() => grow == true);
         grow = false;
 
-        //Adjust proportional growth rate again
-        //treeTrunk.localScale = Vector3.Scale(treeTrunk.localScale, new Vector3(trunkGirthRate, trunkHeightRate, trunkGirthRate));
-        treeCap.localScale = Vector3.Scale(treeCap.localScale, new Vector3(capGirthRate, capHeightRate, capGirthRate));
 
         startTime = Time.fixedTime;
         endTime = startTime + maturityTime;

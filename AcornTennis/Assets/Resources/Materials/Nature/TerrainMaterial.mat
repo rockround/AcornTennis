@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8514081139205754833
+--- !u!114 &-5038089089614470189
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,10 +20,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FenceMaterial
+  m_Name: TerrainMaterial
   m_Shader: {fileID: -6465566751694194690, guid: aa998829cfce67843bb820b306573549,
     type: 3}
-  m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -34,38 +34,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_6F1F0019:
-        m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_6F7FA25E:
-        m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_D7D2919C:
-        m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _CalculateAdditionalLights_44D1137A_Texture2D1BF2E354_2432954509:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _CalculateAdditionalLights_95867564_Texture2D1BF2E354_2432954509:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _CalculateLighting_19C67554_Texture2D192D6999_3988936213:
-        m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _CalculateLighting_6052E53B_Texture2D192D6999_3988936213:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,11 +54,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 2e38f7921b7d7b1418ab63c08117ffb8, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -91,15 +71,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_2CB427F8: 0
-    - Vector1_1001E0ED: 6.44
-    - Vector1_2A455339: 0.142
-    - Vector1_2CDFE041: 0.459
-    - Vector1_4FBC5E96: 0.017
-    - Vector1_5A9E5888: 0.348
-    - Vector1_6E4CCD17: 0.371
-    - Vector1_A9CA1C74: 0.016
-    - Vector1_CD9CB9E8: 0
-    - Vector1_F5DCAAE8: 0.567
+    - Vector1_2CDFE041: 0
+    - Vector1_4FBC5E96: 0
+    - Vector1_6E4CCD17: 0
+    - Vector1_A9CA1C74: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -122,11 +97,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_8E254A5D: {r: 0.3490566, g: 0.30349013, b: 0.2749644, a: 0}
-    - Color_C62DA07A: {r: 1, g: 1, b: 1, a: 0}
-    - Color_FA669E8D: {r: 1, g: 1, b: 1, a: 0}
+    - Color_8E254A5D: {r: 0, g: 0, b: 0, a: 0}
+    - Color_C62DA07A: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

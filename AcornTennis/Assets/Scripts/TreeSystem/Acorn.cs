@@ -110,7 +110,7 @@ public class Acorn : MonoBehaviour
     }
     IEnumerator DropAcorns()
     {
-        Bounds capBounds = tree.treeCap.GetComponent<Collider>().bounds;
+        Bounds capBounds = tree.leafArea.bounds;
         Vector3 max = capBounds.max;
         Vector3 min = capBounds.min;
         Vector3 deltas = max - min;

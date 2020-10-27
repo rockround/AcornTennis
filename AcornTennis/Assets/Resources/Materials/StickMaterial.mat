@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StickMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 200f656518c335342b241f8d4abdff8c,
+  m_Shader: {fileID: -6465566751694194690, guid: aa998829cfce67843bb820b306573549,
     type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP
   m_LightmapFlags: 4
@@ -20,6 +20,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_6F1F0019:
+        m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_6F7FA25E:
+        m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_D7D2919C:
         m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -30,6 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CalculateAdditionalLights_44D1137A_Texture2D1BF2E354_2432954509:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CalculateAdditionalLights_95867564_Texture2D1BF2E354_2432954509:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CalculateLighting_6052E53B_Texture2D192D6999_3988936213:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -53,8 +73,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_2CB427F8: 0
+    - Vector1_1001E0ED: 13.42
     - Vector1_2A455339: 0.207
+    - Vector1_2CDFE041: 0
+    - Vector1_4FBC5E96: 0
     - Vector1_5A9E5888: 0.478
+    - Vector1_6E4CCD17: 0.341
+    - Vector1_A9CA1C74: 0.198
     - Vector1_CD9CB9E8: 0
     - Vector1_F5DCAAE8: 0.38
     - _AlphaClip: 0
@@ -79,6 +105,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_8E254A5D: {r: 0, g: 0, b: 0, a: 0}
+    - Color_C62DA07A: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0}
     - Color_FA669E8D: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

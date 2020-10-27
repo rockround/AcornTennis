@@ -22,7 +22,7 @@ public class SwingMotion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        neutralRotation = transform.localRotation;
+        neutralRotation = handle.localRotation;
         neutralRacketRotation = swingObject.localRotation;
         neutralRacketPosition = swingObject.localPosition;
         StartCoroutine(swing());
@@ -67,7 +67,7 @@ public class SwingMotion : MonoBehaviour
             while (Time.fixedTime < endTime && windBack)
             {
                 float progress = (Time.fixedTime - startTime) / timeTaken;
-                transform.localRotation = Quaternion.Slerp(neutralRotation, targetRotation, progress);
+                handle.localRotation = Quaternion.Slerp(neutralRotation, targetRotation, progress);
                 //swingObject.localRotation = Quaternion.Slerp(neutralBatRotation, finalRight,progress);
                 yield return null;
             }
@@ -77,7 +77,7 @@ public class SwingMotion : MonoBehaviour
                 yield return null;
             }
 
-            Quaternion fromRotation = transform.localRotation;
+            Quaternion fromRotation = handle.localRotation;
             //Quaternion fromBatRotation = swingObject.localRotation;
 
             diff = Mathf.Abs(Quaternion.Angle(fromRotation, neutralRotation));
@@ -88,7 +88,7 @@ public class SwingMotion : MonoBehaviour
             while (Time.fixedTime < endTime)
             {
                 float progress = (Time.fixedTime - startTime) / timeTaken;
-                transform.localRotation = Quaternion.Slerp(fromRotation, neutralRotation, progress * progress);
+                handle.localRotation = Quaternion.Slerp(fromRotation, neutralRotation, progress * progress);
                 //swingObject.localRotation = Quaternion.Slerp(fromBatRotation, neutralBatRotation,progress);
                 yield return new WaitForFixedUpdate();
             }

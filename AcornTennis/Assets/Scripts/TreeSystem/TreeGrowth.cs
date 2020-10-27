@@ -31,6 +31,9 @@ public class TreeGrowth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        grownScale *= .5f + Random.value * 1.5f;
+        saplingScale *= .5f + Random.value * 1.5f;
+        matureScale *= .5f + Random.value * 1.5f;
     }
 
     // Update is called once per frame
@@ -47,13 +50,15 @@ public class TreeGrowth : MonoBehaviour
         //Vector3 grownTrunkSize = startingTrunkSize * growthScale;
         //Vector3 matureTrunkSize = startingTrunkSize * matureScale;
 
+        float currentScale = startScale;
         float startTime = Time.fixedTime;
         float endTime = startTime + initialGrowthTime;
 
         while (Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / initialGrowthTime;
-            Vector3 rawScale = Vector3.one * Mathf.Lerp(startScale, saplingScale, progress);
+            currentScale = Mathf.Lerp(startScale, saplingScale, progress);
+            Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
             yield return null;
@@ -75,7 +80,8 @@ public class TreeGrowth : MonoBehaviour
         while (Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / growthTime;
-            Vector3 rawScale = Vector3.one * Mathf.Lerp(saplingScale, grownScale, progress);
+            currentScale = Mathf.Lerp(saplingScale, grownScale, progress);
+            Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
             yield return null;
@@ -95,7 +101,8 @@ public class TreeGrowth : MonoBehaviour
         while(Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / growthTime;
-            Vector3 rawScale = Vector3.one * Mathf.Lerp(grownScale, matureScale, progress);
+            currentScale = Mathf.Lerp(grownScale, matureScale, progress);
+            Vector3 rawScale = Vector3.one *currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
             yield return null;

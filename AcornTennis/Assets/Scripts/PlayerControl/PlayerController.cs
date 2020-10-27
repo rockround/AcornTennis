@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public float jumpAccelerationTime = 0.5f;
     public float jumpMaxAcceleration = 12;
 
-    bool canJump = false;
+    bool airborn = false;
     public float restHeight = .385f;
     public float legSpringConstant = 10;
     public Transform cameraTransform;
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //bodyRB.velocity += Vector3.up * jumpHeight;
-                if (!canJump)
+                if (!airborn)
                     StartCoroutine(invokeJump());
             }
 
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator invokeJump()
     {
-        canJump = true;
+        airborn = true;
         float startTime = Time.fixedTime;
         float endTime = startTime + jumpAccelerationTime;
         float offset = calculateDipAccelerateOffset();
@@ -291,9 +291,9 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.name == "Ground")
+        if(collision.collider.name == "Ground" || collision.collider.name.Contains("Fence") || collision.collider.name.Contains("Tree"))
         {
-            canJump = false;
+            airborn = false;
         }
     }
 

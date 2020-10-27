@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Trunk
-  m_Shader: {fileID: -6465566751694194690, guid: aa998829cfce67843bb820b306573549,
+  m_Shader: {fileID: -6465566751694194690, guid: 4aa46d33b0afb5e49bb0703218e42e0e,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -28,8 +28,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2148396b133b56f40baa7ea4fd22982a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_77B2B2FF:
+        m_Texture: {fileID: 2800000, guid: 127e881fbe6bb844e9fedf3f55d88bf2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_D7D2919C:
         m_Texture: {fileID: 2800000, guid: 9644eb6aca67672449e2bcbb0eab8e84, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_F9676FD0:
+        m_Texture: {fileID: 2800000, guid: dcf883d0778a44d47996d35010b8bccd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -74,14 +82,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_2CB427F8: 0
+    - Boolean_68FFC673: 1
+    - Vector1_115EC98D: 0
     - Vector1_2A455339: 0.821
     - Vector1_2CDFE041: 0
+    - Vector1_38BD3441: 0.97
     - Vector1_4FBC5E96: 0
     - Vector1_5A9E5888: 0.142
     - Vector1_6E4CCD17: 0.139
     - Vector1_A9CA1C74: 0.455
     - Vector1_CD9CB9E8: 0
+    - Vector1_CF8B0D8D: 8.52
+    - Vector1_ED5ABFD9: 0.169
+    - Vector1_F3F6B787: 0.34
     - Vector1_F5DCAAE8: 0
+    - Vector1_FC5B15DE: 0.1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,9 +119,14 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_28180829: {r: 0.27358484, g: 0.13472801, b: 0.07097719, a: 1}
+    - Color_57D43A16: {r: 0.4716981, g: 0.29668027, b: 0.09122459, a: 0}
     - Color_8E254A5D: {r: 0, g: 0, b: 0, a: 0}
     - Color_C62DA07A: {r: 0.2735849, g: 0.18109462, b: 0.009033469, a: 0}
+    - Color_F689E8B9: {r: 0.38679245, g: 0.1610165, b: 0.08210216, a: 1}
     - Color_FA669E8D: {r: 0.3301887, g: 0.12927198, b: 0.12927198, a: 1}
+    - Vector4_B59EE619: {r: 0.3, g: 0.5, b: 0, a: 0}
+    - Vector4_EE9B1E5E: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

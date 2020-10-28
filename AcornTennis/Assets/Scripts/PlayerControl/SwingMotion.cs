@@ -98,7 +98,7 @@ public class SwingMotion : MonoBehaviour
     }
     internal void OnCollisionEnter(Collision collision)
     {
-
+        /*
         Vector3 normal = collision.contacts[0].normal;
         Vector3 position = collision.contacts[0].point;
         Rigidbody other = collision.rigidbody;
@@ -107,5 +107,6 @@ public class SwingMotion : MonoBehaviour
         Vector3 otherMomentum = other.velocity * other.mass;
         Vector3 finalVelocity = (batMomentum + otherMomentum) / (other.mass + racketBody.mass);
         other.velocity = finalVelocity;
+        */
     }
 }

@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public delegate void OnRightUp();
     public delegate void OnShiftDown();
     public delegate void OnShiftUp();
+    public delegate void OnTargetAcquired(Transform target, Vector3 point, Vector3 hitDirection);
 
     public OnLeftDown onLeftDown;
     public OnLeftUp onLeftUp;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public OnRightDown onRightDown;
     public OnShiftUp onShiftUp;
     public OnShiftDown onShiftDown;
+    public OnTargetAcquired onTargetAcquired;
 
 
     public float slowRadius = 2;
@@ -54,6 +56,8 @@ public class PlayerController : MonoBehaviour
     public Transform cameraTransform;
     public float jumpDipPercent = 0.5f;
     public MeshRenderer reticle;
+
+
     public void Start()
     {
         StartCoroutine(update());
@@ -75,9 +79,10 @@ public class PlayerController : MonoBehaviour
             reticle.enabled = true;
             if (Input.GetMouseButtonDown(0))
             {
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10))
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10,1<<8))
                 {
-                    hit.rigidbody.AddForceAtPosition(-hit.normal, hit.point, ForceMode.Impulse);
+                    onTargetAcquired?.Invoke(hit.transform, hit.point - hit.transform.position, -hit.normal);
+                    //hit.rigidbody.AddForceAtPosition(-hit.normal * 3, hit.point, ForceMode.Impulse);
                 }
             }
         }

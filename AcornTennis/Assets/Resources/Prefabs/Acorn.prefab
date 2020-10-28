@@ -350,9 +350,9 @@ GameObject:
   - component: {fileID: 7317302566102626242}
   - component: {fileID: 7317302566102626245}
   - component: {fileID: 7317302566102626244}
-  - component: {fileID: 7317302566102626247}
   - component: {fileID: 7317302566102626246}
   - component: {fileID: 7317302566102626243}
+  - component: {fileID: 6553906576668460614}
   m_Layer: 8
   m_Name: Acorn
   m_TagString: Untagged
@@ -382,7 +382,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317302566102626249}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &7317302566102626244
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -424,19 +424,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7317302566102626247
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317302566102626249}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7317302566102626246
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -472,8 +459,21 @@ MonoBehaviour:
   spawnPeriod: 10
   meshRenderer: {fileID: 7317302566102626244}
   meshFilter: {fileID: 7317302566102626245}
-  currentCollider: {fileID: 7317302566102626247}
+  currentCollider: {fileID: 6553906576668460614}
   currentRigidbody: {fileID: 7317302566102626246}
+--- !u!135 &6553906576668460614
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317302566102626249}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7317302566753681332
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,11 +46,14 @@ public class PlayerController : MonoBehaviour
     public float jumpAccelerationTime = 0.5f;
     public float jumpMaxAcceleration = 12;
 
+    float currentSpeedMultiplier = 1;
+
     bool airborn = false;
     public float restHeight = .385f;
     public float legSpringConstant = 10;
     public Transform cameraTransform;
     public float jumpDipPercent = 0.5f;
+    public MeshRenderer reticle;
     public void Start()
     {
         StartCoroutine(update());
@@ -64,11 +67,30 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        float displacement = .385f - transform.position.y;
-        float forceSplit = legSpringConstant * displacement / 2;
-        //bodyRB.AddForce(forceSplit * Vector3.up,ForceMode.Acceleration);
-    }
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, 1 << 8);
+        if (didHit)
+        {
+            reticle.transform.position = hit.point;
+            reticle.enabled = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10))
+                {
+                    hit.rigidbody.AddForceAtPosition(-hit.normal, hit.point, ForceMode.Impulse);
+                }
+            }
+        }
+        else
+        {
+            reticle.enabled = false;
+        }
 
+    }
+    private void FixedUpdate()
+    {
+
+    }
     // Update is called once per frame
     public IEnumerator update()
     {
@@ -104,6 +126,7 @@ public class PlayerController : MonoBehaviour
                 //Cursor.lockState = CursorLockMode.None;
                 //Cursor.visible = true;
                 screenlock = true;
+                currentSpeedMultiplier = .5f;
                 onShiftDown?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -111,6 +134,7 @@ public class PlayerController : MonoBehaviour
                 //Cursor.lockState = CursorLockMode.Confined;
                 //Cursor.visible = false;
                 screenlock = false;
+                currentSpeedMultiplier = 1;
                 onShiftUp?.Invoke();
             }
 
@@ -163,15 +187,17 @@ public class PlayerController : MonoBehaviour
         Vector3 initialLocalCameraPos = cameraTransform.localPosition;
         Vector3 modifiedCameraPos = initialLocalCameraPos;
         Vector3 velocity = Vector3.zero;
-        while (Time.fixedTime < endTime)
+        float currentTime = startTime;
+        while (currentTime < endTime)
         {
-            float timeElapsed = Time.fixedTime - startTime;
+            float timeElapsed = currentTime - startTime;
+            float deltaNextFrame = Time.fixedDeltaTime;// * currentSpeedMultiplier;
             if (timeElapsed / jumpAccelerationTime < jumpDipPercent)//one third of jump is dipping to wind
             {
                 float acceleration = timeElapsed * (timeElapsed - offset) - 9.81f;
                 bodyRB.AddForce(Vector3.up * acceleration, ForceMode.Acceleration);
-                modifiedCameraPos = modifiedCameraPos +  velocity * Time.fixedDeltaTime;
-                velocity += Vector3.up * .5f * acceleration * Time.fixedDeltaTime;
+                modifiedCameraPos = modifiedCameraPos + velocity * deltaNextFrame;
+                velocity += Vector3.up * .5f * acceleration * deltaNextFrame;
             }
             else
             {
@@ -179,15 +205,16 @@ public class PlayerController : MonoBehaviour
                 bodyRB.AddForce(Vector3.up * acceleration, ForceMode.Acceleration);
                 if (transform.position.y < 1)
                 {
-                    modifiedCameraPos = modifiedCameraPos + velocity * Time.fixedDeltaTime;
-                    velocity += Vector3.up * .5f * acceleration * Time.fixedDeltaTime;
+                    modifiedCameraPos = modifiedCameraPos + velocity * deltaNextFrame;
+                    velocity += Vector3.up * .5f * acceleration * deltaNextFrame;
                 }
                 else
                 {
-                    modifiedCameraPos = Vector3.Lerp(modifiedCameraPos,initialLocalCameraPos,Mathf.Sqrt((timeElapsed - jumpAccelerationTime * jumpDipPercent)/(jumpAccelerationTime * (1-jumpDipPercent))));
+                    modifiedCameraPos = Vector3.Lerp(modifiedCameraPos, initialLocalCameraPos, Mathf.Sqrt((timeElapsed - jumpAccelerationTime * jumpDipPercent) / (jumpAccelerationTime * (1 - jumpDipPercent))));
                 }
             }
             cameraTransform.localPosition = modifiedCameraPos;
+            currentTime += deltaNextFrame;
             yield return new WaitForFixedUpdate();
         }
         bodyRB.useGravity = true;
@@ -195,7 +222,7 @@ public class PlayerController : MonoBehaviour
     float calculateDipAccelerateOffset()
     {
         float dipPeriod = jumpDipPercent * jumpAccelerationTime;
-        return (9.81f + jumpMaxAcceleration - dipPeriod * dipPeriod ) /dipPeriod;
+        return (9.81f + jumpMaxAcceleration - dipPeriod * dipPeriod) / dipPeriod;
     }
 
     IEnumerator slowTimeController()
@@ -213,17 +240,18 @@ public class PlayerController : MonoBehaviour
             List<Vector3> velocities = new List<Vector3>();
             List<Vector3> realVelocities = new List<Vector3>();
             List<Vector3> positions = new List<Vector3>();
-
-            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius,8);
-
+            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
             if (results.Length > 0)
             {
                 foreach (Collider hit in results)
                 {
-                    Rigidbody rb = hit.GetComponent<Rigidbody>();
-                    if (rb != null)
+                    // if (hit.name != "Player")
                     {
-                        bodies.Add(rb);
+                        Rigidbody rb = hit.GetComponent<Rigidbody>();
+                        if (rb != null)
+                        {
+                            bodies.Add(rb);
+                        }
                     }
                 }
 
@@ -243,7 +271,7 @@ public class PlayerController : MonoBehaviour
                     for (int i = bodies.Count - 1; i >= 0; i--)
                     {
                         Vector3 rawResult = positions[i] + velocities[i] * delta;
-                        float position_y = Mathf.Max(0, positions[i].y);
+                        float position_y = Mathf.Max(1, rawResult.y);
                         positions[i] = new Vector3(rawResult.x, position_y, rawResult.z);
                         bodies[i].position = positions[i];
 
@@ -251,7 +279,7 @@ public class PlayerController : MonoBehaviour
                         realVelocities[i] = realVelocities[i] + Physics.gravity * Time.fixedDeltaTime;
                         bodies[i].velocity = velocities[i];
 
-                        if ((bodies[i].position - transform.position).magnitude > slowRadius)
+                        if ((bodies[i].position - transform.position).magnitude > slowRadius || (!airborn && bodies[i] == bodyRB))
                         {
                             bodies[i].useGravity = true;
                             bodies[i].velocity = realVelocities[i];
@@ -291,10 +319,11 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.name == "Ground" || collision.collider.name.Contains("Fence") || collision.collider.name.Contains("Tree"))
+        if (collision.collider.name == "Ground" || collision.collider.name.Contains("Fence") || collision.collider.name.Contains("Tree"))
         {
             airborn = false;
         }
     }
+
 
 }

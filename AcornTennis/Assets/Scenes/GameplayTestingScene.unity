@@ -1929,7 +1929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &923149339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2142,51 +2142,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1115795484}
   m_CullTransparentMesh: 0
---- !u!1 &1193425894
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1193425895}
-  - component: {fileID: 1193425896}
-  m_Layer: 10
-  m_Name: UpdraftCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1193425895
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1193425894}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0}
-  m_LocalScale: {x: 2, y: 0.5, z: 2}
-  m_Children: []
-  m_Father: {fileID: 1973051552}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1193425896
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1193425894}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1206200107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2458862428828830730, guid: c23a70e874246df4abf2ae4de4e97ef2,
@@ -3031,7 +2986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1566247340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3147,6 +3102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TreeNeighbor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271439262730673489, guid: 21dbe183c88c1434e880aeb88cfac2b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
@@ -3567,7 +3527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1675798977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8900,6 +8860,8 @@ MonoBehaviour:
   focusTime: 0.05
   swingRadius: 1
   swinger: {fileID: 1320441258}
+  groundCollider: {fileID: 1973051549}
+  updraftForce: {x: 0, y: 5, z: 0}
 --- !u!54 &1973051548
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8993,7 +8955,6 @@ Transform:
   - {fileID: 1492096689}
   - {fileID: 1320441256}
   - {fileID: 244867412}
-  - {fileID: 1193425895}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12917,6 +12878,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TreeSelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271439262730673489, guid: 21dbe183c88c1434e880aeb88cfac2b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}

@@ -53,6 +53,10 @@ public class PlayerController : MonoBehaviour
 
     public SwingPath swinger;
 
+    public Collider groundCollider;
+
+    public Vector3 updraftForce = new Vector3(0, 20, 0);
+
     public void Start()
     {
         StartCoroutine(update());
@@ -66,7 +70,7 @@ public class PlayerController : MonoBehaviour
         //Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
     }
-    public IEnumerator strikeAction(float delay,float force, Rigidbody body, Vector3 hitDirection)
+    public IEnumerator strikeAction(float delay, float force, Rigidbody body, Vector3 hitDirection)
     {
         yield return new WaitForSecondsRealtime(delay);
 
@@ -83,7 +87,17 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator forceField()
     {
-        yield return null;
+        float min_y = groundCollider.bounds.min.y;
+        Collider[] results = Physics.OverlapSphere(new Vector3(transform.position.x, min_y, transform.position.z), 2, 1 << 8);
+        foreach (Collider c in results)
+        {
+            if (c.transform.position.y - min_y > .5f)
+                continue;
+            Rigidbody body = c.GetComponent<Rigidbody>();
+            body.velocity += updraftForce * currentSpeedMultiplier;
+        }
+        print(results.Length);
+        yield break;
     }
     private void Update()
     {
@@ -114,7 +128,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-
+                //Do tree hitting here
             }
 
 
@@ -127,7 +141,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (airborn && !jumping)
+        if (!(airborn && jumping))
         {
             bodyRB.velocity += currentSpeedMultiplier * Physics.gravity * Time.deltaTime;
         }
@@ -162,13 +176,22 @@ public class PlayerController : MonoBehaviour
                 deltaR = 0;
             }
 
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                StartCoroutine(forceField());
+            }
+
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 //Cursor.lockState = CursorLockMode.None;
                 //Cursor.visible = true;
                 screenlock = true;
-                currentSpeedMultiplier = .5f;
+                currentSpeedMultiplier = slowMultiplier;
                 StartCoroutine(focusAnimation(true));
+                if(airborn && jumping)
+                {
+                    bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
+                }
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
@@ -178,7 +201,6 @@ public class PlayerController : MonoBehaviour
                 currentSpeedMultiplier = 1;
                 StartCoroutine(focusAnimation(false));
             }
-
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //bodyRB.velocity += Vector3.up * jumpHeight;
@@ -212,6 +234,7 @@ public class PlayerController : MonoBehaviour
         Vector3 modifiedCameraPos = initialLocalCameraPos;
         Vector3 velocity = Vector3.zero;
         float currentTime = startTime;
+
         while (currentTime < endTime)
         {
             float timeElapsed = currentTime - startTime;
@@ -221,16 +244,18 @@ public class PlayerController : MonoBehaviour
                 float acceleration = timeElapsed * (timeElapsed - offset) - 9.81f;
                 bodyRB.AddForce(Vector3.up * acceleration, ForceMode.Acceleration);
                 modifiedCameraPos = modifiedCameraPos + velocity * deltaNextFrame;
-                velocity += Vector3.up * .5f * acceleration * deltaNextFrame;
+                velocity += Vector3.up * acceleration * deltaNextFrame;
             }
             else
             {
+                //This is wrong code but it looks fine, animation wise
                 float acceleration = Mathf.Lerp(jumpMaxAcceleration, 0, timeElapsed - jumpAccelerationTime * jumpDipPercent);
+
                 bodyRB.AddForce(Vector3.up * acceleration, ForceMode.Acceleration);
                 if (transform.position.y < 1)
                 {
                     modifiedCameraPos = modifiedCameraPos + velocity * deltaNextFrame;
-                    velocity += Vector3.up * .5f * acceleration * deltaNextFrame;
+                    velocity += Vector3.up * acceleration * deltaNextFrame;
                 }
                 else
                 {
@@ -349,7 +374,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.name == "Ground" || collision.collider.name.Contains("Fence") || collision.collider.name.Contains("Tree"))
+        if (collision.collider.name == "Ground")// || collision.collider.name.Contains("Fence") || collision.collider.name.Contains("Tree"))
         {
             airborn = false;
         }

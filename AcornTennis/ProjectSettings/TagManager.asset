@@ -15,9 +15,9 @@ TagManager:
   - 
   - SlowPhysics
   - Racket
-  - 
-  - 
-  - 
+  - Player
+  - Environment
+  - GameObjective
   - 
   - 
   - 

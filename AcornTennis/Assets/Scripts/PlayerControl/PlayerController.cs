@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     float currentSpeedMultiplier = 1;
 
-    bool airborn = false;
+    bool airborn = true;
     public float restHeight = .385f;
     public float legSpringConstant = 10;
     public Transform cameraTransform;
@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public Volume volume;
     Vignette vignette;
     bool lockSequence = false;
+    bool jumping = false;
 
     public float unfocusedVignette;
     public float focusedVignette;
@@ -65,6 +66,25 @@ public class PlayerController : MonoBehaviour
         //Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
     }
+    public IEnumerator strikeAction(float delay,float force, Rigidbody body, Vector3 hitDirection)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        body.isKinematic = false;
+        if (bodies.Contains(body) && screenlock)
+        {
+            body.velocity = slowMultiplier * (body.mass * body.velocity + 90 * hitDirection * force) / (body.mass + 90);
+        }
+        else
+        {
+            body.velocity = (body.mass * body.velocity + 90 * hitDirection * force) / (body.mass + 90);
+        }
+        //Include followthrough
+    }
+    public IEnumerator forceField()
+    {
+        yield return null;
+    }
     private void Update()
     {
         RaycastHit hit;
@@ -78,21 +98,17 @@ public class PlayerController : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Transform target = hit.transform;
-                    Vector3 targetPos = hit.point;
-
-
-                    Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, hit.point, swinger.transform.right, -hit.normal);//, swingApex,windEndDir);
-                    print("After " + timeForce.x + " Velocity is " + timeForce.y);
-
-                    target.GetComponent<Rigidbody>().isKinematic = false;
-                    if (bodies.Contains(target.GetComponent<Rigidbody>()) && screenlock)
+                    if (hit.transform.root.name.Contains("Tree"))
                     {
-                        target.GetComponent<Rigidbody>().velocity = slowMultiplier * (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
+                        print("Hit tree");
                     }
                     else
                     {
-                        target.GetComponent<Rigidbody>().velocity = (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
+                        Transform target = hit.transform;
+                        Vector3 targetPos = hit.point;
+                        Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, hit.point, swinger.transform.right, -hit.normal);//, swingApex,windEndDir);
+                        print("After " + timeForce.x + " Velocity is " + timeForce.y);
+                        StartCoroutine(strikeAction(timeForce.x, timeForce.y, target.GetComponent<Rigidbody>(), -hit.normal));
                     }
                 }
             }
@@ -111,7 +127,10 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
+        if (airborn && !jumping)
+        {
+            bodyRB.velocity += currentSpeedMultiplier * Physics.gravity * Time.deltaTime;
+        }
     }
     // Update is called once per frame
     public IEnumerator update()
@@ -176,6 +195,8 @@ public class PlayerController : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(new Vector3(0, rightLeftRotation, 0));
             Camera.main.transform.localEulerAngles = new Vector3(upDownRotation, 0, 0);
+            //If in the air, simulate physics
+
             bodyRB.velocity = transform.right * deltaR * currentSpeedMultiplier + Vector3.up * bodyRB.velocity.y + deltaF * transform.forward * currentSpeedMultiplier;
             yield return null;
         }
@@ -183,10 +204,10 @@ public class PlayerController : MonoBehaviour
     IEnumerator invokeJump()
     {
         airborn = true;
+        jumping = true;
         float startTime = Time.fixedTime;
         float endTime = startTime + jumpAccelerationTime;
         float offset = calculateDipAccelerateOffset();
-        bodyRB.useGravity = false;
         Vector3 initialLocalCameraPos = cameraTransform.localPosition;
         Vector3 modifiedCameraPos = initialLocalCameraPos;
         Vector3 velocity = Vector3.zero;
@@ -220,7 +241,7 @@ public class PlayerController : MonoBehaviour
             currentTime += deltaNextFrame;
             yield return new WaitForFixedUpdate();
         }
-        bodyRB.useGravity = true;
+        jumping = false;
     }
     float calculateDipAccelerateOffset()
     {
@@ -240,7 +261,6 @@ public class PlayerController : MonoBehaviour
             }
 
             //Capture all local rigidbodies, slow down time on them
-
             Collider[] results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
             if (results.Length > 0)
             {
@@ -271,8 +291,6 @@ public class PlayerController : MonoBehaviour
                     {
                         foreach (Collider bod in results)
                         {
-                            if (bod.name == "Player")
-                                continue;
                             Rigidbody rb = bod.GetComponent<Rigidbody>();
                             if (rb != null && !bodies.Contains(rb))
                             {
@@ -296,7 +314,7 @@ public class PlayerController : MonoBehaviour
                         bodies[i].velocity += Physics.gravity * delta;
 
                     destroyer:
-                        if (bodies[i] == null || (bodies[i].position - transform.position).magnitude > slowRadius || (!airborn && bodies[i] == bodyRB))
+                        if (bodies[i] == null || (bodies[i].position - transform.position).magnitude > slowRadius)
                         {
                             if (bodies[i] != null)
                             {

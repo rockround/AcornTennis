@@ -7,6 +7,8 @@ public class SeedSpawner : MonoBehaviour
     public GameObject seed;
     GameObject currentSeed;
     Vector3 previousPosition;
+    public bool pitch;
+    public Vector3 velocity;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,11 @@ public class SeedSpawner : MonoBehaviour
         {
             Destroy(currentSeed);
             currentSeed = Instantiate(seed, transform.position, transform.rotation);
+            if (pitch)
+            {
+                currentSeed.GetComponent<Rigidbody>().isKinematic = false;
+                currentSeed.GetComponent<Rigidbody>().velocity = velocity;
+            }
         }
     }
 }

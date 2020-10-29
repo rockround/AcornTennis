@@ -84,9 +84,16 @@ public class PlayerController : MonoBehaviour
 
                     Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, hit.point, swinger.transform.right, -hit.normal);//, swingApex,windEndDir);
                     print("After " + timeForce.x + " Velocity is " + timeForce.y);
-                    target.GetComponent<Rigidbody>().isKinematic = false;
-                    target.GetComponent<Rigidbody>().velocity = (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
 
+                    target.GetComponent<Rigidbody>().isKinematic = false;
+                    if (bodies.Contains(target.GetComponent<Rigidbody>()) && screenlock)
+                    {
+                        target.GetComponent<Rigidbody>().velocity = slowMultiplier * (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
+                    }
+                    else
+                    {
+                        target.GetComponent<Rigidbody>().velocity = (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
+                    }
                 }
             }
             else
@@ -221,6 +228,8 @@ public class PlayerController : MonoBehaviour
         return (9.81f + jumpMaxAcceleration - dipPeriod * dipPeriod) / dipPeriod;
     }
 
+    List<Rigidbody> bodies = new List<Rigidbody>();
+
     IEnumerator slowTimeController()
     {
         while (true)
@@ -232,10 +241,6 @@ public class PlayerController : MonoBehaviour
 
             //Capture all local rigidbodies, slow down time on them
 
-            List<Rigidbody> bodies = new List<Rigidbody>();
-            List<Vector3> velocities = new List<Vector3>();
-            List<Vector3> realVelocities = new List<Vector3>();
-            List<Vector3> positions = new List<Vector3>();
             Collider[] results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
             if (results.Length > 0)
             {
@@ -254,15 +259,30 @@ public class PlayerController : MonoBehaviour
                 //Capture time sequence
                 foreach (Rigidbody rb in bodies)
                 {
-                    velocities.Add(rb.velocity);
-                    realVelocities.Add(rb.velocity);
-                    //positions.Add(rb.position);
                     rb.useGravity = false;
-                    rb.velocity = Vector3.zero;
+                    rb.velocity *= slowMultiplier;
                 }
                 //Iterate through time, slow motion
                 while (screenlock)
                 {
+
+                    results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
+                    if (results.Length > 0)
+                    {
+                        foreach (Collider bod in results)
+                        {
+                            if (bod.name == "Player")
+                                continue;
+                            Rigidbody rb = bod.GetComponent<Rigidbody>();
+                            if (rb != null && !bodies.Contains(rb))
+                            {
+                                bodies.Add(rb);
+                                rb.useGravity = false;
+                                rb.velocity *= slowMultiplier;
+                            }
+                        }
+                    }
+
                     float delta = Time.fixedDeltaTime * slowMultiplier;
                     for (int i = bodies.Count - 1; i >= 0; i--)
                     {
@@ -271,21 +291,22 @@ public class PlayerController : MonoBehaviour
                         //positions[i] = new Vector3(rawResult.x, position_y, rawResult.z);
                         //bodies[i].position = positions[i];
 
-                        velocities[i] = velocities[i] + Physics.gravity * delta;
-                        realVelocities[i] = realVelocities[i] + Physics.gravity * Time.fixedDeltaTime;
-                        bodies[i].velocity = velocities[i];
+                        if (bodies[i] == null)
+                            goto destroyer;
+                        bodies[i].velocity += Physics.gravity * delta;
 
-                        if ((bodies[i].position - transform.position).magnitude > slowRadius || (!airborn && bodies[i] == bodyRB))
+                    destroyer:
+                        if (bodies[i] == null || (bodies[i].position - transform.position).magnitude > slowRadius || (!airborn && bodies[i] == bodyRB))
                         {
-                            bodies[i].useGravity = true;
-                            bodies[i].velocity = velocities[i];// realVelocities[i];
-                            //bodies[i].position = positions[i];
+                            if (bodies[i] != null)
+                            {
+                                bodies[i].useGravity = true;
+                                bodies[i].velocity /= slowMultiplier;
+                            }
                             bodies.RemoveAt(i);
-                            velocities.RemoveAt(i);
-                            realVelocities.RemoveAt(i);
-                            //positions.RemoveAt(i);
                         }
                     }
+
                     yield return new WaitForFixedUpdate();
                 }
 
@@ -293,15 +314,10 @@ public class PlayerController : MonoBehaviour
                 for (int i = 0; i < bodies.Count; i++)
                 {
                     bodies[i].useGravity = true;
-
-                    bodies[i].velocity = realVelocities[i];
-                    //bodies[i].position = positions[i];
+                    bodies[i].velocity /= slowMultiplier;
                 }
 
                 bodies.Clear();
-                velocities.Clear();
-                realVelocities.Clear();
-                positions.Clear();
             }
             else
             {

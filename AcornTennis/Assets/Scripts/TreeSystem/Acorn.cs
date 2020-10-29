@@ -10,6 +10,7 @@ public class Acorn : MonoBehaviour
     GameObject acornPrefab;
     public TreeGrowth tree;
     public float timeToGrow = 5;
+    public float timeToDevelop = 5;
     public float pauseIntervalToGrown = 5;
     public float pauseIntervalToMature = 8;
     public float spawnPeriod = 10;
@@ -66,6 +67,7 @@ public class Acorn : MonoBehaviour
         yield return new WaitUntil(() => grounded == true);
 
 
+        float minY = currentCollider.bounds.min.y;
         //Destroy shell
         Destroy(currentCollider);
         Destroy(meshFilter);
@@ -74,7 +76,7 @@ public class Acorn : MonoBehaviour
         //Correct transform
         transform.rotation = Quaternion.identity;
         transform.localScale = Vector3.one;
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, minY, transform.position.z);
 
         //Expose insides
         tree.gameObject.SetActive(true);
@@ -116,13 +118,13 @@ public class Acorn : MonoBehaviour
         Vector3 deltas = max - min;
         while (alive)
         {
-            float growthPeriod = timeToGrow * (Random.value + .5f);
+            float growthPeriod = timeToDevelop * (Random.value + .5f);
             Vector3 spawnPos = min + new Vector3(deltas.x * Random.value, -.005f, deltas.z * Random.value);
             GameObject newAcorn = Instantiate(acornPrefab, spawnPos, Quaternion.identity);
             newAcorn.GetComponent<Rigidbody>().isKinematic = true;
 
             float startTime = Time.unscaledTime;
-            float endTime = startTime + timeToGrow;
+            float endTime = startTime + growthPeriod;
             while (Time.unscaledTime < endTime)
             {
                 Vector3 rawScale = Mathf.Lerp(0.01f, 0.5f, (Time.unscaledTime - startTime) / growthPeriod) * Vector3.one;

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// Class dedicated to single player control
@@ -24,24 +25,6 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody bodyRB;//synced player rigidbody
 
-
-    public delegate void OnLeftDown();
-    public delegate void OnLeftUp();
-    public delegate void OnRightDown();
-    public delegate void OnRightUp();
-    public delegate void OnShiftDown();
-    public delegate void OnShiftUp();
-    public delegate void OnTargetAcquired(Transform target, Vector3 point, Vector3 hitDirection);
-
-    public OnLeftDown onLeftDown;
-    public OnLeftUp onLeftUp;
-    public OnRightUp onRightUp;
-    public OnRightDown onRightDown;
-    public OnShiftUp onShiftUp;
-    public OnShiftDown onShiftDown;
-    public OnTargetAcquired onTargetAcquired;
-
-
     public float slowRadius = 2;
     public float slowMultiplier = 0.5f;
     public bool screenlock;
@@ -57,11 +40,24 @@ public class PlayerController : MonoBehaviour
     public float jumpDipPercent = 0.5f;
     public MeshRenderer reticle;
 
+    public Volume volume;
+    Vignette vignette;
+    bool lockSequence = false;
+
+    public float unfocusedVignette;
+    public float focusedVignette;
+
+    public float focusTime = 0.5f;
+    public float swingRadius = 1;
+
+    public SwingPath swinger;
 
     public void Start()
     {
         StartCoroutine(update());
         StartCoroutine(slowTimeController());
+        volume.profile.TryGet(out vignette);
+
     }
 
     public void OnDestroy()
@@ -72,19 +68,33 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        bool didHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, 1 << 8);
+        bool didHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, swingRadius, 1 << 8);
         if (didHit)
         {
-            reticle.transform.position = hit.point;
-            reticle.enabled = true;
-            if (Input.GetMouseButtonDown(0))
+            if (swinger.canHit(swinger.transform, hit.point, -hit.normal))
             {
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10,1<<8))
+                reticle.transform.position = hit.point;
+                reticle.enabled = true;
+
+                if (Input.GetMouseButtonDown(0))
                 {
-                    onTargetAcquired?.Invoke(hit.transform, hit.point - hit.transform.position, -hit.normal);
-                    //hit.rigidbody.AddForceAtPosition(-hit.normal * 3, hit.point, ForceMode.Impulse);
+                    Transform target = hit.transform;
+                    Vector3 targetPos = hit.point;
+
+
+                    Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, hit.point, swinger.transform.right, -hit.normal);//, swingApex,windEndDir);
+                    print("After " + timeForce.x + " Velocity is " + timeForce.y);
+                    target.GetComponent<Rigidbody>().isKinematic = false;
+                    target.GetComponent<Rigidbody>().velocity = (target.GetComponent<Rigidbody>().mass * target.GetComponent<Rigidbody>().velocity + 90 * -hit.normal * timeForce.y) / (target.GetComponent<Rigidbody>().mass + 90);
+
                 }
             }
+            else
+            {
+
+            }
+
+
         }
         else
         {
@@ -132,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 //Cursor.visible = true;
                 screenlock = true;
                 currentSpeedMultiplier = .5f;
-                onShiftDown?.Invoke();
+                StartCoroutine(focusAnimation(true));
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
@@ -140,7 +150,7 @@ public class PlayerController : MonoBehaviour
                 //Cursor.visible = false;
                 screenlock = false;
                 currentSpeedMultiplier = 1;
-                onShiftUp?.Invoke();
+                StartCoroutine(focusAnimation(false));
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -150,35 +160,16 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(invokeJump());
             }
 
-            if (Input.GetMouseButtonDown(RIGHT_MOUSE_BUTTON))
-            {
-                onRightDown?.Invoke();
-            }
-            else if (Input.GetMouseButtonUp(RIGHT_MOUSE_BUTTON))
-            {
-                onRightUp?.Invoke();
-            }
-
-            if (Input.GetMouseButtonDown(LEFT_MOUSE_BUTTON))
-            {
-                onLeftDown?.Invoke();
-            }
-            else if (Input.GetMouseButtonUp(LEFT_MOUSE_BUTTON))
-            {
-                onLeftUp?.Invoke();
-            }
-
-
             if (!screenlock)
             {
-                rightLeftRotation += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-                upDownRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+                rightLeftRotation += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime * currentSpeedMultiplier;
+                upDownRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime * currentSpeedMultiplier;
                 upDownRotation = Mathf.Clamp(upDownRotation, -maxLookUpDownAngle, maxLookUpDownAngle);
             }
 
             transform.rotation = Quaternion.Euler(new Vector3(0, rightLeftRotation, 0));
             Camera.main.transform.localEulerAngles = new Vector3(upDownRotation, 0, 0);
-            bodyRB.velocity = transform.right * deltaR + Vector3.up * bodyRB.velocity.y + deltaF * transform.forward;
+            bodyRB.velocity = transform.right * deltaR * currentSpeedMultiplier + Vector3.up * bodyRB.velocity.y + deltaF * transform.forward * currentSpeedMultiplier;
             yield return null;
         }
     }
@@ -265,7 +256,7 @@ public class PlayerController : MonoBehaviour
                 {
                     velocities.Add(rb.velocity);
                     realVelocities.Add(rb.velocity);
-                    positions.Add(rb.position);
+                    //positions.Add(rb.position);
                     rb.useGravity = false;
                     rb.velocity = Vector3.zero;
                 }
@@ -275,10 +266,10 @@ public class PlayerController : MonoBehaviour
                     float delta = Time.fixedDeltaTime * slowMultiplier;
                     for (int i = bodies.Count - 1; i >= 0; i--)
                     {
-                        Vector3 rawResult = positions[i] + velocities[i] * delta;
-                        float position_y = Mathf.Max(1, rawResult.y);
-                        positions[i] = new Vector3(rawResult.x, position_y, rawResult.z);
-                        bodies[i].position = positions[i];
+                        //Vector3 rawResult = positions[i] + velocities[i] * delta;
+                        //float position_y = Mathf.Max(1f, rawResult.y);
+                        //positions[i] = new Vector3(rawResult.x, position_y, rawResult.z);
+                        //bodies[i].position = positions[i];
 
                         velocities[i] = velocities[i] + Physics.gravity * delta;
                         realVelocities[i] = realVelocities[i] + Physics.gravity * Time.fixedDeltaTime;
@@ -287,12 +278,12 @@ public class PlayerController : MonoBehaviour
                         if ((bodies[i].position - transform.position).magnitude > slowRadius || (!airborn && bodies[i] == bodyRB))
                         {
                             bodies[i].useGravity = true;
-                            bodies[i].velocity = realVelocities[i];
-                            bodies[i].position = positions[i];
+                            bodies[i].velocity = velocities[i];// realVelocities[i];
+                            //bodies[i].position = positions[i];
                             bodies.RemoveAt(i);
                             velocities.RemoveAt(i);
                             realVelocities.RemoveAt(i);
-                            positions.RemoveAt(i);
+                            //positions.RemoveAt(i);
                         }
                     }
                     yield return new WaitForFixedUpdate();
@@ -304,7 +295,7 @@ public class PlayerController : MonoBehaviour
                     bodies[i].useGravity = true;
 
                     bodies[i].velocity = realVelocities[i];
-                    bodies[i].position = positions[i];
+                    //bodies[i].position = positions[i];
                 }
 
                 bodies.Clear();
@@ -330,5 +321,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator focusAnimation(bool isTo)
+    {
+        while (lockSequence)
+        {
+            yield return null;
+        }
 
+        lockSequence = true;
+
+        float startTime = Time.unscaledTime;
+        float endTime = startTime + focusTime;
+        float span;
+        float currentVignette;
+
+        if (isTo)
+        {
+            span = (focusedVignette - unfocusedVignette) / focusTime;
+            currentVignette = unfocusedVignette;
+        }
+        else
+        {
+            span = (unfocusedVignette - focusedVignette) / focusTime;
+            currentVignette = focusedVignette;
+        }
+
+        while (Time.unscaledTime < endTime)
+        {
+            currentVignette += span * Time.unscaledDeltaTime;
+            vignette.intensity.value = currentVignette;
+            yield return null;
+        }
+
+        lockSequence = false;
+    }
 }

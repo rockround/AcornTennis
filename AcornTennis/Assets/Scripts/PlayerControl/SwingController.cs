@@ -23,23 +23,19 @@ public class SwingController : MonoBehaviour
     void Start()
     {
         volume.profile.TryGet(out vignette);
-        controller.onShiftDown += onLockOn;
-        controller.onShiftUp += onLockOff;
+        //controller.onShiftDown += onLockOn;
+        //controller.onShiftUp += onLockOff;
         //controller.onLeftUp += onReleaseSwing;
         //controller.onLeftDown += onSwing;
-        controller.onTargetAcquired += targetAcquired;
     }
 
     // Update is called once per frame
     void Update()
     {
     }
-    void targetAcquired(Transform target, Vector3 targetPoint, Vector3 hitDirection)
+    internal void targetAcquired(Transform target, Vector3 targetPoint, Vector3 hitDirection)
     {
-        Vector3 eulerRotationWind = getRotationEuler() * 200;
-        Vector3 swingApex = Quaternion.Euler(eulerRotationWind) * (swingObject.position- swingObject.parent.position) + swingObject.parent.position;
-        Vector3 windEndDir = Quaternion.Euler(eulerRotationWind) * swingObject.right;
-        swingPath.UpdatePoints(swingObject, target.position + targetPoint,swingObject.right,hitDirection, swingApex,windEndDir);
+
     }
     Vector3 getRotationEuler()
     {

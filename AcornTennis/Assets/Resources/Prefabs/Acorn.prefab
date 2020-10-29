@@ -174,7 +174,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4267015213048903802, guid: 87cbb6defd2826d43a53e3e00d3a5b1b, type: 3}
 --- !u!1 &4662758684590784855
@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 2081849901109567615}
   - component: {fileID: 540279233537505862}
   - component: {fileID: 2622288011029018721}
+  - component: {fileID: 3922467041516644214}
   m_Layer: 0
   m_Name: cgaxis_models_115_37_04
   m_TagString: Untagged
@@ -258,6 +259,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3922467041516644214
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4662758684590784855}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3976402723374932587, guid: 87cbb6defd2826d43a53e3e00d3a5b1b, type: 3}
 --- !u!1 &6340738550968987726
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 7317302566753681330}
   timeToGrow: 10
+  timeToDevelop: 5
   pauseIntervalToGrown: 5
   pauseIntervalToMature: 8
   spawnPeriod: 10

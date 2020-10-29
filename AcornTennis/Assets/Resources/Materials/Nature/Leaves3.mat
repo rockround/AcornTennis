@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Leaves3
-  m_Shader: {fileID: -6465566751694194690, guid: 4aa46d33b0afb5e49bb0703218e42e0e,
+  m_Shader: {fileID: -6465566751694194690, guid: 63d20b84046cc0c43a821ac3ce01c6b6,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_77B2B2FF:
-        m_Texture: {fileID: 2800000, guid: e109905c411b0f84e82eaaf2705ece30, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_D7D2919C:
@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_F9676FD0:
-        m_Texture: {fileID: 2800000, guid: 1f89fed00b6bc904c861ab847a811cb8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 08baf6792189212468e8c8eb3be4e230, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -83,7 +83,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_2CB427F8: 0
-    - Boolean_68FFC673: 0
+    - Boolean_68FFC673: 1
     - Vector1_115EC98D: 0
     - Vector1_2A455339: 0.5
     - Vector1_2CDFE041: 0
@@ -120,13 +120,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_28180829: {r: 0.8301887, g: 0.4528302, b: 0, a: 1}
-    - Color_57D43A16: {r: 0.9433962, g: 0.514151, b: 0, a: 0}
+    - Color_28180829: {r: 0.6792453, g: 0.55297995, b: 0.33641866, a: 1}
+    - Color_57D43A16: {r: 0.9901867, g: 1, b: 0.4764151, a: 1}
     - Color_8E254A5D: {r: 1, g: 0.5019608, b: 0, a: 0.8}
     - Color_C62DA07A: {r: 0.8867924, g: 0.5348714, b: 0.11294055, a: 0}
-    - Color_F689E8B9: {r: 0.9622642, g: 0.57554483, b: 0.004538993, a: 1}
+    - Color_F689E8B9: {r: 0.8584906, g: 0.71797216, b: 0.25511748, a: 1}
     - Color_FA669E8D: {r: 0, g: 0, b: 0, a: 0}
-    - Vector4_B59EE619: {r: 0.01, g: 0.01, b: 0, a: 0}
+    - Vector4_B59EE619: {r: 1, g: 1, b: 0, a: 0}
     - Vector4_EE9B1E5E: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

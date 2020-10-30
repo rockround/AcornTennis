@@ -7845,7 +7845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083ebd4f021ffd3489b19fcbaf7ccada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   bodyRB: {fileID: 1449669840}
   slowRadius: 3
   slowMultiplier: 0.05
@@ -7858,7 +7858,7 @@ MonoBehaviour:
   swingRadius: 1
   swinger: {fileID: 273302084}
   groundCollider: {fileID: 1449669839}
-  updraftForce: {x: 0, y: 8, z: 0}
+  updraftForce: {x: 0, y: 6, z: 0}
   team: 2
 --- !u!1 &1460539451
 GameObject:
@@ -15121,7 +15121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea614ed2f1d38cc48a1d42603b3e4efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   maxLookUpDownAngle: 50
   mouseSensitivity: 150
   bodyRB: {fileID: 1973051548}
@@ -15142,7 +15142,7 @@ MonoBehaviour:
   swingRadius: 1
   swinger: {fileID: 1320441258}
   groundCollider: {fileID: 1973051549}
-  updraftForce: {x: 0, y: 8, z: 0}
+  updraftForce: {x: 0, y: 6, z: 0}
 --- !u!54 &1973051548
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19469,7 +19469,7 @@ PrefabInstance:
     - target: {fileID: 7271439262730673489, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}

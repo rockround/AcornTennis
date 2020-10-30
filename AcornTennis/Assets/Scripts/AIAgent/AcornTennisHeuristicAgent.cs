@@ -42,6 +42,8 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
 
     public int team;
 
+    public float acornSize = .5f;
+
     public void Start()
     {
         StartCoroutine(slowTimeController());
@@ -63,7 +65,72 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
         }
         //Include followthrough
     }
-
+    public void tryStrikeAction(Rigidbody target, int direction, int sign)
+    {
+        if (target.transform.root.name.Contains("Tree"))
+        {
+            print("Hit tree");
+        }
+        else
+        {
+            Vector3 directionOut = Vector3.zero;
+            switch (direction)
+            {
+                case 1:
+                    {
+                        directionOut = (new Vector3(.1f, -.1f, sign)).normalized;
+                        break;
+                    }
+                case 2:
+                    {
+                        directionOut = (new Vector3(0, -.1f, sign)).normalized;
+                        break;
+                    }
+                case 3:
+                    {
+                        directionOut = (new Vector3(.1f, -.1f, sign)).normalized;
+                        break;
+                    }
+                case 4:
+                    {
+                        directionOut = (new Vector3(.1f, 0, sign)).normalized;
+                        break;
+                    }
+                case 5:
+                    {
+                        directionOut = (new Vector3(0, 0, sign)).normalized;
+                        break;
+                    }
+                case 6:
+                    {
+                        directionOut = (new Vector3(-.1f, 0, sign)).normalized;
+                        break;
+                    }
+                case 7:
+                    {
+                        directionOut = (new Vector3(.1f, .1f, sign)).normalized;
+                        break;
+                    }
+                case 8:
+                    {
+                        directionOut = (new Vector3(0, .1f, sign)).normalized;
+                        break;
+                    }
+                case 9:
+                    {
+                        directionOut = (new Vector3(-.1f, .1f, sign)).normalized;
+                        break;
+                    }
+            }
+            Vector3 targetPos = target.position - directionOut * acornSize;
+            if (swinger.canHit(swinger.transform, targetPos, directionOut))
+            {
+                Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, targetPos, swinger.transform.right, directionOut);//, swingApex,windEndDir);
+                print("After " + timeForce.x + " Velocity is " + timeForce.y);
+                StartCoroutine(strikeAction(timeForce.x, timeForce.y, target, directionOut));
+            }
+        }
+    }
     //Only cast to applicable distance. Sphere around
     private void Update()
     {
@@ -109,32 +176,33 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
     // Update is called once per frame
     //vertical -> -1 back 0 none 1 up
     //horizontal -> -1 left 0 none 1 right
-    //power -> -1 slow 0 none 1 updraft
-    //Jump
+    //power -> -1 updraft 0 none 1 jump
+    //slow
     //swing -> 0 none, 1 TR, 2 T, 3 TL, 4 L, 5 Center, 6 R, 7 BL, 8B, 9 BR
-    int previousPower = 0;
-    public void InvokeInput(float vertical, float horizontal, int power, int swing, bool jump)
+    bool previousSlow = false;
+    public void InvokeInput(float vertical, float horizontal, int power, int swing, bool slow)
     {
         deltaF = vertical * moveSpeed;
 
         deltaR = horizontal * moveSpeed;
 
-        //Toggle control
-        if (power != previousPower)
+        //Can only do something if not airborn, and will only do something if power is nonzero
+        if (!(airborn || power == 0))
         {
-            if (power > 0 && !airborn)
+            if (power == 1)
             {
-                float min_y = groundCollider.bounds.min.y;
-                Collider[] results = Physics.OverlapSphere(new Vector3(transform.position.x, min_y, transform.position.z), 2, 1 << 8);
-                foreach (Collider c in results)
-                {
-                    if (c.transform.position.y - min_y > .5f)
-                        continue;
-                    Rigidbody body = c.GetComponent<Rigidbody>();
-                    body.velocity += updraftForce * currentSpeedMultiplier;
-                }
+                StartCoroutine(invokeJump());
             }
-            else if(power < 0)//slow time can happen whenever
+            else //if power is -1
+            {
+                if (!forceFieldCooldown)
+                    StartCoroutine(forceField());
+            }
+        }
+
+        if (slow != previousSlow)
+        {
+            if (slow)
             {
                 screenlock = true;
                 currentSpeedMultiplier = slowMultiplier;
@@ -143,26 +211,37 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
                     bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
                 }
             }
-
-            //Reset slow time 
-            if (previousPower == -1)
+            else
             {
                 screenlock = false;
                 currentSpeedMultiplier = 1;
             }
-        }
-        previousPower = power;
-
-        if (jump)
-        {
-            //bodyRB.velocity += Vector3.up * jumpHeight;
-            if (!airborn)
-                StartCoroutine(invokeJump());
+            previousSlow = slow;
         }
 
         //If in the air, simulate physics
         bodyRB.velocity = Vector3.right * deltaR * currentSpeedMultiplier + Vector3.up * bodyRB.velocity.y + deltaF * Vector3.forward * currentSpeedMultiplier;
     }
+
+    internal bool forceFieldCooldown = false;
+    public IEnumerator forceField()
+    {
+        forceFieldCooldown = true;
+        float min_y = groundCollider.bounds.min.y;
+        Collider[] results = Physics.OverlapSphere(new Vector3(transform.position.x, min_y, transform.position.z), 2, 1 << 8);
+        foreach (Collider c in results)
+        {
+            if (c.transform.position.y - min_y > .5f)
+                continue;
+            Rigidbody body = c.GetComponent<Rigidbody>();
+            body.velocity += updraftForce * currentSpeedMultiplier;
+        }
+        print(results.Length);
+        yield return new WaitForSecondsRealtime(.5f);
+        forceFieldCooldown = false;
+    }
+
+
     IEnumerator invokeJump()
     {
         airborn = true;

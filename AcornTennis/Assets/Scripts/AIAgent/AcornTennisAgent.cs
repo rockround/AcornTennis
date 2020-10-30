@@ -55,6 +55,8 @@ public class AcornTennisAgent : Agent
 
     public Vector3 updraftForce = new Vector3(0, 20, 0);
 
+    public float acornSize = .5f;
+
     public void Start()
     {
         StartCoroutine(update());
@@ -77,7 +79,68 @@ public class AcornTennisAgent : Agent
         }
         //Include followthrough
     }
-
+    public void tryStrikeAction(Rigidbody target, int direction)
+    {
+        if (target.transform.root.name.Contains("Tree"))
+        {
+            print("Hit tree");
+        }
+        else
+        {
+            Vector3 directionOut = Vector3.zero;
+            switch (direction) {
+                case 1:
+                    {
+                        directionOut = (new Vector3(.1f, -.1f, 1)).normalized;
+                        break;
+                    }
+                case 2:
+                    {
+                        directionOut = (new Vector3(0,-.1f,1)).normalized;
+                        break;
+                    }
+                case 3:
+                    {
+                        directionOut = (new Vector3(.1f,-.1f,1)).normalized;
+                        break;
+                    }
+                case 4:
+                    {
+                        directionOut = (new Vector3(.1f,0,1)).normalized;
+                        break;
+                    }
+                case 5:
+                    {
+                        directionOut = (new Vector3(0,0,1)).normalized;
+                        break;
+                    }
+                case 6:
+                    {
+                        directionOut = (new Vector3(-.1f,0,1)).normalized;
+                        break;
+                    }
+                case 7:
+                    {
+                        directionOut = (new Vector3(.1f,.1f,1)).normalized;
+                        break;
+                    }
+                case 8:
+                    {
+                        directionOut = (new Vector3(0,.1f,1)).normalized;
+                        break;
+                    }
+                case 9:
+                    {
+                        directionOut = (new Vector3(-.1f,.1f,1)).normalized;
+                        break;
+                    }
+            }
+            Vector3 targetPos = target.position  -directionOut * acornSize;
+            Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, targetPos, swinger.transform.right, directionOut);//, swingApex,windEndDir);
+            print("After " + timeForce.x + " Velocity is " + timeForce.y);
+            StartCoroutine(strikeAction(timeForce.x, timeForce.y, target, directionOut));
+        }
+    }
     private void Update()
     {
         RaycastHit hit;

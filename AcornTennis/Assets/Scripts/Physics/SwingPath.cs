@@ -68,8 +68,6 @@ public class SwingPath : MonoBehaviour
             startDir *= -1;
 
         //print("Hit with back face: " + leftExit);
-        Debug.DrawLine(start.position, start.position + startDir * .3f, Color.red, 3);
-        Debug.DrawLine(targetPos, targetPos + endDir * .3f, Color.blue, 3);
         //if (isBackHand)
         //    startDir *= -1;
         List<Vector3> points;
@@ -89,7 +87,6 @@ public class SwingPath : MonoBehaviour
 
             Vector3 windEndDir = -calculatedPosRotDir;
 
-            Debug.DrawLine(windEndPos, windEndPos + windEndDir * .3f, Color.yellow, 3);
             //Wind
             var pointData = generatePoints(start.position, windEndPos, startDir, windEndDir);
             points = pointData.Item1;

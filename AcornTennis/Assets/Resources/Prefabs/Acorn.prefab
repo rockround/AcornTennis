@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treePrefab: {fileID: 7271439262730673489, guid: 21dbe183c88c1434e880aeb88cfac2b7,
     type: 3}
-  timeToGrow: 5
+  timeToGrow: 10
   meshRenderer: {fileID: 7317302566102626244}
   meshFilter: {fileID: 7317302566102626245}
   currentCollider: {fileID: 6553906576668460614}

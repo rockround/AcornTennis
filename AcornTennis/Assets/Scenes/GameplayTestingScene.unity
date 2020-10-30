@@ -5064,7 +5064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &923149339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7859,6 +7859,7 @@ MonoBehaviour:
   swinger: {fileID: 273302084}
   groundCollider: {fileID: 1449669839}
   updraftForce: {x: 0, y: 8, z: 0}
+  team: 2
 --- !u!1 &1460539451
 GameObject:
   m_ObjectHideFlags: 0
@@ -8539,7 +8540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1566247340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8584,7 +8585,7 @@ PrefabInstance:
     - target: {fileID: 7271439262730673488, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.77
+      value: -3.89
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673488, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
@@ -8594,7 +8595,7 @@ PrefabInstance:
     - target: {fileID: 7271439262730673488, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.66
+      value: 9.97
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673488, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
@@ -8659,7 +8660,7 @@ PrefabInstance:
     - target: {fileID: 7271439262730673489, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
@@ -8669,7 +8670,12 @@ PrefabInstance:
     - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
         type: 3}
       propertyPath: matureScale
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271439262730673495, guid: 21dbe183c88c1434e880aeb88cfac2b7,
+        type: 3}
+      propertyPath: grownScale
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21dbe183c88c1434e880aeb88cfac2b7, type: 3}
@@ -9236,7 +9242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1675798977
 MonoBehaviour:
   m_ObjectHideFlags: 0

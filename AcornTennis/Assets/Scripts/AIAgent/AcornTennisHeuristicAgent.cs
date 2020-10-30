@@ -38,9 +38,9 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
 
     public Collider groundCollider;
 
-    public Vector3 updraftForce = new Vector3(0, 5, 0);
+    public Vector3 updraftForce = new Vector3(0, 8, 0);
 
-    internal int team;
+    public int team;
 
     public void Start()
     {
@@ -113,7 +113,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
     //Jump
     //swing -> 0 none, 1 TR, 2 T, 3 TL, 4 L, 5 Center, 6 R, 7 BL, 8B, 9 BR
     int previousPower = 0;
-    public void InvokeInput(int vertical, int horizontal, int power, int swing, bool jump)
+    public void InvokeInput(float vertical, float horizontal, int power, int swing, bool jump)
     {
         deltaF = vertical * moveSpeed;
 
@@ -161,7 +161,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
         }
 
         //If in the air, simulate physics
-        bodyRB.velocity = transform.right * deltaR * currentSpeedMultiplier + Vector3.up * bodyRB.velocity.y + deltaF * transform.forward * currentSpeedMultiplier;
+        bodyRB.velocity = Vector3.right * deltaR * currentSpeedMultiplier + Vector3.up * bodyRB.velocity.y + deltaF * Vector3.forward * currentSpeedMultiplier;
     }
     IEnumerator invokeJump()
     {

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8842434855624917349
 Transform:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7369566417002487793
 Transform:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2126024367067005594
 Transform:
   m_ObjectHideFlags: 0
@@ -290,7 +290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1949931780580273288
 Transform:
   m_ObjectHideFlags: 0
@@ -405,8 +405,8 @@ MonoBehaviour:
   growthTime: 2
   maturityTime: 2
   saplingScale: 0.5
-  grownScale: 3
-  matureScale: 5
+  grownScale: 2
+  matureScale: 3
   timeToGrow: 5
   timeToDevelop: 5
   pauseIntervalToGrown: 5
@@ -415,3 +415,4 @@ MonoBehaviour:
   leafArea: {fileID: 2750658907864031805}
   acornPrefab: {fileID: 7317302566102626249, guid: 7690b3b83b690b34c94eadee9ef5987b,
     type: 3}
+  startGrown: 0

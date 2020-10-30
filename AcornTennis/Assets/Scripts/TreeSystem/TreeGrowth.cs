@@ -37,9 +37,9 @@ public class TreeGrowth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grownScale *= .5f + Random.value * 1.5f;
-        saplingScale *= .5f + Random.value * 1.5f;
-        matureScale *= .5f + Random.value * 1.5f;
+        grownScale *= .5f + Random.value * .5f;
+        saplingScale *= .5f + Random.value * .5f;
+        matureScale *= .5f + Random.value * .5f;
         alive = true;
         if (startGrown)
         {

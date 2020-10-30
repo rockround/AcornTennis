@@ -3003,7 +3003,6 @@ MonoBehaviour:
   updraftForce: {x: 0, y: 6, z: 0}
   slowColor: {r: 0, g: 0.84148407, b: 1, a: 0.35686275}
   rangeColor: {r: 0.754717, g: 0.028956704, b: 0, a: 0.30588236}
-  usePanel: 0
 --- !u!54 &493301208
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14123,6 +14122,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7997834956099852054, guid: 40a5c37b62beffd4fa2fc9fa17cd056f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3286163911610860551, guid: 0bc5dde12bfb80c4e9f37248e73ae4b4,
+        type: 3}
     - target: {fileID: 7997834957343274985, guid: 40a5c37b62beffd4fa2fc9fa17cd056f,
         type: 3}
       propertyPath: m_AnchorMax.y

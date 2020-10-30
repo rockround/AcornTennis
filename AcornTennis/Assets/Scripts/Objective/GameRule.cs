@@ -18,7 +18,7 @@ public class GameRule : MonoBehaviour
 
     internal int field1Acorns;
     internal int field2Acorns;
-
+    public InGameMenuController menuController;
     public TMP_Text team1Acorns, team2Acorns;
     // Start is called before the first frame update
     void Start()
@@ -33,24 +33,22 @@ public class GameRule : MonoBehaviour
     }
     IEnumerator timer(float timePeriod)
     {
-        float startTime = Time.realtimeSinceStartup;
+        float startTime = Time.time;
         float endTime = startTime + timePeriod;
-        while (Time.realtimeSinceStartup < endTime)
+        while (Time.time < endTime)
         {
-            float progress = (Time.realtimeSinceStartup - startTime) / timePeriod;
+            float progress = (Time.time - startTime) / timePeriod;
             slider.value = progress;
             yield return new WaitForSecondsRealtime(.05f);
         }
-        Collider[] team1Colliders = Physics.OverlapBox(centerField1, extentField1, Quaternion.identity,1<<8);
-        Collider[] team2Colliders = Physics.OverlapBox(centerField2, extentField2, Quaternion.identity, 1 << 8);
-        print(team1Colliders.Length + " " + team2Colliders.Length);
-        if(team1Colliders.Length > team2Colliders.Length)
+
+        if(field1Acorns > field2Acorns)
         {
-            print("Team 2 wins");
+            menuController.GameEnded(2);
         }
         else
         {
-            print("Team 1 wins");
+            menuController.GameEnded(1);
         }
     }
     internal void OnTriggerEnter(Collider other)

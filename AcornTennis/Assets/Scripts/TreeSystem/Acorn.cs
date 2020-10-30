@@ -40,9 +40,9 @@ public class Acorn : MonoBehaviour
     
     IEnumerator growthTimer()
     {
-        float startTime = Time.unscaledTime;
+        float startTime = Time.time;
         float endTime = startTime + timeToGrow;
-        while (Time.unscaledTime < endTime)
+        while (Time.time < endTime)
         {
             yield return null;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -60,8 +61,13 @@ public class PlayerController : MonoBehaviour
 
     public Color rangeColor;
 
+    List<Acorn> possibleAcorns;
+
     public void Start()
     {
+
+        possibleAcorns = new List<Acorn>();
+
         StartCoroutine(update());
         StartCoroutine(slowTimeController());
         volume.profile.TryGet(out vignette);
@@ -100,11 +106,56 @@ public class PlayerController : MonoBehaviour
             if (body != null)
                 body.velocity += updraftForce * currentSpeedMultiplier;
         }
-        print(results.Length);
         yield break;
     }
     private void Update()
     {
+        Collider[] results = Physics.OverlapSphere(Camera.main.transform.position, slowRadius, (1 << 8));
+        //If in results and not in possible, this is a new entry -> results.removeAll(possible)
+        //If in possible and not in results, this entry must be discarded -> possible.removeAll(
+        //If appearing in both, check if it's close enough to strike
+        if (results.Length > 0)
+        {
+            for(int i=possibleAcorns.Count-1; i>=0; i--)
+            {
+                if(Array.FindIndex(results,x=>x == possibleAcorns[i].currentCollider) == -1)
+                {
+                    possibleAcorns[i].auraMaterial.SetColor("_color", Color.black);
+                    possibleAcorns.RemoveAt(i);
+                }
+            }
+
+            foreach (Collider col in results)
+            {
+                Acorn acorn = col.GetComponent<Acorn>();
+                if (acorn != null)
+                {
+                    Color colorClass = (col.ClosestPoint(Camera.main.transform.position) - Camera.main.transform.position).magnitude <= swingRadius ? rangeColor : slowColor;
+                    if (possibleAcorns.IndexOf(acorn) != -1)
+                    {
+                        //result may have come closer or gone further
+                        acorn.auraMaterial.SetColor("_color",colorClass);
+                    }
+                    else
+                    {
+                        //This result is new
+                        acorn.auraMaterial.SetColor("_color", colorClass);
+                        possibleAcorns.Add(acorn);
+                    }
+
+
+                }
+            }
+
+        }
+        else
+        {
+            foreach(Acorn acorn in possibleAcorns)
+            {
+                acorn.auraMaterial.SetColor("_color", Color.black);
+            }
+            possibleAcorns.Clear();
+        }
         RaycastHit hit;
         bool didHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, swingRadius, 1 << 8);
         if (didHit)
@@ -289,7 +340,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Capture all local rigidbodies, slow down time on them
-            Collider[] results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
+            Collider[] results = Physics.OverlapSphere(Camera.main.transform.position, slowRadius, (1 << 8));
             if (results.Length > 0)
             {
                 foreach (Collider hit in results)
@@ -299,10 +350,6 @@ public class PlayerController : MonoBehaviour
                         Rigidbody rb = hit.GetComponent<Rigidbody>();
                         if (rb != null)
                         {
-                            if (hit.GetComponent<Acorn>() != null)
-                            {
-                                hit.GetComponent<MeshRenderer>().materials[1].SetColor("_color", slowColor);
-                            }
                             bodies.Add(rb);
                         }
                     }
@@ -318,7 +365,7 @@ public class PlayerController : MonoBehaviour
                 while (screenlock)
                 {
 
-                    results = Physics.OverlapSphere(transform.position, slowRadius, (1 << 8));
+                    results = Physics.OverlapSphere(Camera.main.transform.position, slowRadius, (1 << 8));
                     if (results.Length > 0)
                     {
                         foreach (Collider bod in results)
@@ -329,10 +376,6 @@ public class PlayerController : MonoBehaviour
                                 bodies.Add(rb);
                                 rb.useGravity = false;
                                 rb.velocity *= slowMultiplier;
-                                if (rb.GetComponent<Acorn>() != null)
-                                {
-                                    rb.GetComponent<MeshRenderer>().materials[1].SetColor("_color", slowColor);
-                                }
                             }
                         }
                     }
@@ -350,16 +393,13 @@ public class PlayerController : MonoBehaviour
                         bodies[i].velocity += Physics.gravity * delta;
 
                     destroyer:
-                        if (bodies[i] == null || (bodies[i].position - transform.position).magnitude > slowRadius)
+                        if (bodies[i] == null || (bodies[i].position - Camera.main.transform.position).magnitude > slowRadius)
                         {
                             if (bodies[i] != null)
                             {
                                 bodies[i].useGravity = true;
                                 bodies[i].velocity /= slowMultiplier;
-                                if (bodies[i].GetComponent<Acorn>() != null)
-                                {
-                                    bodies[i].GetComponent<MeshRenderer>().materials[1].SetColor("_color", Color.black);
-                                }
+
                             }
                             bodies.RemoveAt(i);
                         }
@@ -373,10 +413,7 @@ public class PlayerController : MonoBehaviour
                 {
                     bodies[i].useGravity = true;
                     bodies[i].velocity /= slowMultiplier;
-                    if (bodies[i].GetComponent<Acorn>() != null)
-                    {
-                        bodies[i].GetComponent<MeshRenderer>().materials[1].SetColor("_color", Color.black);
-                    }
+
                 }
 
                 bodies.Clear();

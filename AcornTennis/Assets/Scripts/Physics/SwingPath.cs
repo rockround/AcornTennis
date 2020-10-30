@@ -12,6 +12,7 @@ public class SwingPath : MonoBehaviour
     /// Center of rotation of arms
     /// </summary>
     public Transform body;
+
     //How quickly wind up
     public float windSpeedLinear = 10;
     public float swingTorque = 30;
@@ -110,6 +111,8 @@ public class SwingPath : MonoBehaviour
         }
 
 
+
+
         lr.positionCount = 0;
         for (int i = 0; i < points.Count; i++)
         {
@@ -117,7 +120,7 @@ public class SwingPath : MonoBehaviour
             //point is centroid of tube
             lr.SetPosition(i, points[i]);
         }
-        StartCoroutine(followSequence(points, directions, swapIndex));
+        StartCoroutine(followSequence(points, directions, swapIndex,start));
         return calculateTimeAndForce(points, directions, swapIndex);
     }
     Vector2 calculateTimeAndForce(List<Vector3> points, List<Vector3> directions, int swapIndex)
@@ -201,8 +204,9 @@ public class SwingPath : MonoBehaviour
         //print(windEndPos + " " + (windEndPos - bodyPos).magnitude + " radius: " + radius);
         return windEndPos;
     }
-    IEnumerator followSequence(List<Vector3> points, List<Vector3> directions, int swapIndex)
+    IEnumerator followSequence(List<Vector3> points, List<Vector3> directions, int swapIndex, Transform obj)
     {
+
         for (int i = 1; i < swapIndex; i++)
         {
             float startTime = Time.fixedTime;
@@ -257,7 +261,23 @@ public class SwingPath : MonoBehaviour
         {
             print("NANI");
         }
-        print(currentSpeed);
+
+        Quaternion before = face.localRotation;
+        Quaternion after = Quaternion.Euler(0, 90, 45);
+        Vector3 beforeLocal = face.localPosition;
+        Vector3 afterLocal = new Vector3(0, 0.035f, 0.837f);
+         float startTimeE = Time.fixedTime;
+         float endTimeE = startTimeE + .5f;
+        while(Time.fixedTime < endTimeE)
+        {
+            float progress = (Time.fixedTime - startTimeE) / .5f;
+            face.localPosition = Vector3.Slerp(beforeLocal, afterLocal, progress);
+            face.localRotation = Quaternion.Slerp(before, after, progress);
+            yield return new WaitForFixedUpdate();
+        }
+        face.localRotation = after;
+        face.localPosition = afterLocal;
+
     }
     Tuple<List<Vector3>, List<Vector3>, float, float> generatePoints(Vector3 start, Vector3 end, Vector3 startNorm, Vector3 endNorm)
     {

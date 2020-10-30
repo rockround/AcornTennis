@@ -17,6 +17,13 @@ public class Acorn : MonoBehaviour
     public Collider currentCollider;
     public Rigidbody currentRigidbody;
 
+    public Material auraMaterial;
+
+    private void Start()
+    {
+        auraMaterial = meshRenderer.materials[1];
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {

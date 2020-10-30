@@ -125,7 +125,6 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
             if (swinger.canHit(swinger.transform, targetPos, directionOut))
             {
                 Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, targetPos, swinger.transform.right, directionOut);//, swingApex,windEndDir);
-                print("After " + timeForce.x + " Velocity is " + timeForce.y);
                 StartCoroutine(strikeAction(timeForce.x, timeForce.y, target, directionOut));
             }
         }
@@ -234,7 +233,6 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
             if (body != null)
                 body.velocity += updraftForce * currentSpeedMultiplier;
         }
-        print(results.Length);
         yield return new WaitForSecondsRealtime(.5f);
         forceFieldCooldown = false;
     }

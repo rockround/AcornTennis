@@ -93,7 +93,8 @@ public class PlayerController : MonoBehaviour
             if (c.transform.position.y - min_y > .5f)
                 continue;
             Rigidbody body = c.GetComponent<Rigidbody>();
-            body.velocity += updraftForce * currentSpeedMultiplier;
+            if (body != null)
+                body.velocity += updraftForce * currentSpeedMultiplier;
         }
         print(results.Length);
         yield break;
@@ -187,7 +188,7 @@ public class PlayerController : MonoBehaviour
                 screenlock = true;
                 currentSpeedMultiplier = slowMultiplier;
                 StartCoroutine(focusAnimation(true));
-                if(airborn && jumping)
+                if (airborn && jumping)
                 {
                     bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
                 }

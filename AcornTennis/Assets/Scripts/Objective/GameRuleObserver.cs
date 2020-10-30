@@ -94,7 +94,12 @@ public class GameRuleObserver : MonoBehaviour
                 int swingDirection = ballShouldBeInfront ? 1 : -1;
                 if (spikeable)
                 {
-                    agent.tryStrikeAction(target.GetComponent<Rigidbody>(), 5, swingDirection);
+                    if(target.transform.position.y > 4)
+                        agent.tryStrikeAction(target.GetComponent<Rigidbody>(), 2, swingDirection);
+                    else if(target.transform.position.y > 3)
+                        agent.tryStrikeAction(target.GetComponent<Rigidbody>(), 5, swingDirection);
+                    else
+                        agent.tryStrikeAction(target.GetComponent<Rigidbody>(), 8, swingDirection);
                 }
                 else
                 {

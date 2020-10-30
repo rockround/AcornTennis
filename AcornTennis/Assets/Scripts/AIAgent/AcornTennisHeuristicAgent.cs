@@ -78,47 +78,47 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
             {
                 case 1:
                     {
-                        directionOut = (new Vector3(.1f, -.1f, sign)).normalized;
+                        directionOut = (new Vector3(.1f, -.05f, sign)).normalized;
                         break;
                     }
                 case 2:
                     {
-                        directionOut = (new Vector3(0, -.1f, sign)).normalized;
+                        directionOut = (new Vector3(0, -.05f, sign)).normalized;
                         break;
                     }
                 case 3:
                     {
-                        directionOut = (new Vector3(.1f, -.1f, sign)).normalized;
+                        directionOut = (new Vector3(.1f, -.05f, sign)).normalized;
                         break;
                     }
                 case 4:
                     {
-                        directionOut = (new Vector3(.1f, 0, sign)).normalized;
+                        directionOut = (new Vector3(.1f, 0.1f, sign)).normalized;
                         break;
                     }
                 case 5:
                     {
-                        directionOut = (new Vector3(0, 0, sign)).normalized;
+                        directionOut = (new Vector3(0, 0.1f, sign)).normalized;
                         break;
                     }
                 case 6:
                     {
-                        directionOut = (new Vector3(-.1f, 0, sign)).normalized;
+                        directionOut = (new Vector3(-.1f, 0.1f, sign)).normalized;
                         break;
                     }
                 case 7:
                     {
-                        directionOut = (new Vector3(.1f, .1f, sign)).normalized;
+                        directionOut = (new Vector3(.1f, .2f, sign)).normalized;
                         break;
                     }
                 case 8:
                     {
-                        directionOut = (new Vector3(0, .1f, sign)).normalized;
+                        directionOut = (new Vector3(0, .2f, sign)).normalized;
                         break;
                     }
                 case 9:
                     {
-                        directionOut = (new Vector3(-.1f, .1f, sign)).normalized;
+                        directionOut = (new Vector3(-.1f, .2f, sign)).normalized;
                         break;
                     }
             }
@@ -132,7 +132,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
         }
     }
     //Only cast to applicable distance. Sphere around
-    private void Update()
+    /*private void Update()
     {
         RaycastHit hit;
         bool canHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, swingRadius, 1 << 8);
@@ -161,7 +161,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
                 //Do tree hitting here
             }
         }
-    }
+    }*/
     //Use this to populate possible targets
     //Choose closest one to hit and go to it
     private void FixedUpdate()
@@ -234,7 +234,8 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
             if (c.transform.position.y - min_y > .5f)
                 continue;
             Rigidbody body = c.GetComponent<Rigidbody>();
-            body.velocity += updraftForce * currentSpeedMultiplier;
+            if (body != null)
+                body.velocity += updraftForce * currentSpeedMultiplier;
         }
         print(results.Length);
         yield return new WaitForSecondsRealtime(.5f);

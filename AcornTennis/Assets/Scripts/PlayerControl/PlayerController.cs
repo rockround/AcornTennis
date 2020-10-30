@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
     public Color rangeColor;
 
+    public bool usePanel = false;
+
     List<Acorn> possibleAcorns;
 
     public void Start()

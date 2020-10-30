@@ -168,7 +168,7 @@ public class TreeGrowth : MonoBehaviour
 
             float startTime = Time.unscaledTime;
             float endTime = startTime + growthPeriod;
-            while (Time.unscaledTime < endTime)
+            while (Time.unscaledTime < endTime && newAcorn.GetComponent<Rigidbody>().isKinematic)
             {
                 Vector3 rawScale = Mathf.Lerp(0.01f, 0.5f, (Time.unscaledTime - startTime) / growthPeriod) * Vector3.one;
                 newAcorn.transform.localScale = rawScale;

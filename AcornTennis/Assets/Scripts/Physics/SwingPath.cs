@@ -6,7 +6,6 @@ using UnityEngine;
 public class SwingPath : MonoBehaviour
 {
     public float granularity = .05f;
-    public LineRenderer lr;
     public Transform face;
     /// <summary>
     /// Center of rotation of arms
@@ -19,6 +18,14 @@ public class SwingPath : MonoBehaviour
     public float angularAdjustmentSpeed = 100;
 
     public int swingRadius;
+
+    Vector3 initialLocalPos;
+    Quaternion initialLocalRot;
+    private void Start()
+    {
+        initialLocalPos = face.localPosition;
+        initialLocalRot = face.localRotation;
+    }
     internal bool canHit(Transform start, Vector3 targetPos, Vector3 endDir)
     {
         Vector3 delta = targetPos - start.position;
@@ -112,14 +119,6 @@ public class SwingPath : MonoBehaviour
 
 
 
-
-        lr.positionCount = 0;
-        for (int i = 0; i < points.Count; i++)
-        {
-            lr.positionCount += 1;
-            //point is centroid of tube
-            lr.SetPosition(i, points[i]);
-        }
         StartCoroutine(followSequence(points, directions, swapIndex,start));
         return calculateTimeAndForce(points, directions, swapIndex);
     }
@@ -263,9 +262,9 @@ public class SwingPath : MonoBehaviour
         }
 
         Quaternion before = face.localRotation;
-        Quaternion after = Quaternion.Euler(0, 90, 45);
+        Quaternion after = initialLocalRot;// Quaternion.Euler(0, 90, 45);
         Vector3 beforeLocal = face.localPosition;
-        Vector3 afterLocal = new Vector3(0, 0.035f, 0.837f);
+        Vector3 afterLocal = initialLocalPos;//new Vector3(0, 0.035f, 0.837f);
          float startTimeE = Time.fixedTime;
          float endTimeE = startTimeE + .5f;
         while(Time.fixedTime < endTimeE)

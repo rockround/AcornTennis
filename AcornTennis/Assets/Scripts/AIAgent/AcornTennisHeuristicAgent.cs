@@ -46,7 +46,17 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
     public void Start()
     {
         StartCoroutine(slowTimeController());
-
+        if(StaticInfoContainer.currentDifficulty == 0)
+        {
+            moveSpeed = 1;
+        }else if(StaticInfoContainer.currentDifficulty == 1)
+        {
+            moveSpeed = 2;
+        }
+        else
+        {
+            moveSpeed = 3;
+        }
     }
 
     public IEnumerator strikeAction(float delay, float force, Rigidbody body, Vector3 hitDirection)

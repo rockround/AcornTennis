@@ -27,7 +27,6 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
     public Transform cameraTransform;
     public float jumpDipPercent = 0.35f;
 
-    bool lockSequence = false;
     bool jumping = false;
 
 
@@ -131,7 +130,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
                         break;
                     }
             }
-            Vector3 targetPos = target.position - directionOut * acornSize;
+            Vector3 targetPos = target.GetComponent<Collider>().ClosestPoint(target.position - directionOut * acornSize);
             if (swinger.canHit(swinger.transform, targetPos, directionOut))
             {
                 Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, targetPos, swinger.transform.right, directionOut);//, swingApex,windEndDir);

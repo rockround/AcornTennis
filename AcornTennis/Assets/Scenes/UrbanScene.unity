@@ -7738,6 +7738,7 @@ MonoBehaviour:
   updraftForce: {x: 0, y: 6, z: 0}
   slowColor: {r: 0, g: 0.84148407, b: 1, a: 0.35686275}
   rangeColor: {r: 0.754717, g: 0.028956704, b: 0, a: 0.30588236}
+  useDiscrete: 0
 --- !u!54 &717350037
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9892,7 +9893,7 @@ MeshCollider:
   m_GameObject: {fileID: 1150259349}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -10845,7 +10846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1359008128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13269,7 +13270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1818831462
 MonoBehaviour:
   m_ObjectHideFlags: 0

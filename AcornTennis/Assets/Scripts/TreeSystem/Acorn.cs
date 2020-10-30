@@ -17,11 +17,11 @@ public class Acorn : MonoBehaviour
     public Collider currentCollider;
     public Rigidbody currentRigidbody;
 
-    public Material auraMaterial;
+    internal Material auraMaterial;
 
     private void Start()
     {
-        auraMaterial = meshRenderer.materials[1];
+        auraMaterial = meshRenderer.materials[2];
     }
 
 

@@ -26,8 +26,8 @@ public class StartScreenController : MonoBehaviour
         StaticInfoContainer.difficultyProgressSuburban = PlayerPrefs.GetInt("StageProgressSuburban", -1);
         StaticInfoContainer.difficultyProgressRural = PlayerPrefs.GetInt("StageProgressRural", -1);
 
-        StaticInfoContainer.playerControlSettings = PlayerPrefs.GetInt("PlayerControlSettings", 0);
-        StaticInfoContainer.playerMoveSettings = PlayerPrefs.GetInt("PlayerMoveSettings", 0);
+        StaticInfoContainer.useDiscrete = PlayerPrefs.GetInt("UseDiscrete", 1)==1;
+        StaticInfoContainer.hideMouseDefault = PlayerPrefs.GetInt("HideMouseDefault", 1)==1;
 
         if(StaticInfoContainer.difficultyProgressUrban >= 0)
         {
@@ -56,6 +56,16 @@ public class StartScreenController : MonoBehaviour
     void Update()
     {
         
+    }
+    public void OnToggleConstrainHit(bool state)
+    {
+        StaticInfoContainer.useDiscrete = state;
+        PlayerPrefs.SetInt("UseDiscrete", state ? 1 : 0);
+    }
+    public void OnToggleAutoHide(bool state)
+    {
+        StaticInfoContainer.hideMouseDefault = state;
+        PlayerPrefs.SetInt("HideMouseDefault", state ? 1 : 0);
     }
     public void OnPlay()
     {

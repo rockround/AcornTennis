@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7317302566102626244}
   - component: {fileID: 7317302566102626246}
   - component: {fileID: 7317302566102626243}
-  - component: {fileID: 6553906576668460614}
+  - component: {fileID: 4476295622019788800}
   m_Layer: 8
   m_Name: Acorn
   m_TagString: Untagged
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317302566102626249}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4711208715938537054, guid: 33b2b88f918dfff418f4e7ac01926584, type: 3}
 --- !u!23 &7317302566102626244
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,6 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 4d7004118f3a4cc459b5c7f4af55aa3a, type: 2}
   - {fileID: 2100000, guid: 4d7004118f3a4cc459b5c7f4af55aa3a, type: 2}
   - {fileID: 2100000, guid: 52fba09a670ae8448aceac7c13578db8, type: 2}
   m_StaticBatchInfo:
@@ -118,10 +119,11 @@ MonoBehaviour:
   timeToGrow: 10
   meshRenderer: {fileID: 7317302566102626244}
   meshFilter: {fileID: 7317302566102626245}
-  currentCollider: {fileID: 6553906576668460614}
+  currentCollider: {fileID: 4476295622019788800}
   currentRigidbody: {fileID: 7317302566102626246}
---- !u!135 &6553906576668460614
-SphereCollider:
+  auraMaterial: {fileID: 0}
+--- !u!64 &4476295622019788800
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,6 +132,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4711208715938537054, guid: 33b2b88f918dfff418f4e7ac01926584, type: 3}

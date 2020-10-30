@@ -61,12 +61,15 @@ public class PlayerController : MonoBehaviour
 
     public Color rangeColor;
 
-    public bool usePanel = false;
-
+    bool useDiscrete = false;
+    bool hideMouseDefault = false;
     List<Acorn> possibleAcorns;
+
 
     public void Start()
     {
+        useDiscrete = StaticInfoContainer.useDiscrete;
+        hideMouseDefault = StaticInfoContainer.hideMouseDefault;
 
         possibleAcorns = new List<Acorn>();
 
@@ -118,9 +121,9 @@ public class PlayerController : MonoBehaviour
         //If appearing in both, check if it's close enough to strike
         if (results.Length > 0)
         {
-            for(int i=possibleAcorns.Count-1; i>=0; i--)
+            for (int i = possibleAcorns.Count - 1; i >= 0; i--)
             {
-                if(Array.FindIndex(results,x=>x == possibleAcorns[i].currentCollider) == -1)
+                if (Array.FindIndex(results, x => x == possibleAcorns[i].currentCollider) == -1)
                 {
                     possibleAcorns[i].auraMaterial.SetColor("_color", Color.black);
                     possibleAcorns.RemoveAt(i);
@@ -136,7 +139,7 @@ public class PlayerController : MonoBehaviour
                     if (possibleAcorns.IndexOf(acorn) != -1)
                     {
                         //result may have come closer or gone further
-                        acorn.auraMaterial.SetColor("_color",colorClass);
+                        acorn.auraMaterial.SetColor("_color", colorClass);
                     }
                     else
                     {
@@ -152,7 +155,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            foreach(Acorn acorn in possibleAcorns)
+            foreach (Acorn acorn in possibleAcorns)
             {
                 acorn.auraMaterial.SetColor("_color", Color.black);
             }
@@ -177,11 +180,55 @@ public class PlayerController : MonoBehaviour
                     {
                         Transform target = hit.transform;
                         Vector3 targetPos = hit.point;
-                        Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, hit.point, swinger.transform.right, -hit.normal);//, swingApex,windEndDir);
-                        print("After " + timeForce.x + " Velocity is " + timeForce.y);
+                        Vector3 targetDir = -hit.normal;
+                        if (useDiscrete)
+                        {
+                            Bounds holder = hit.collider.bounds;
+                            Vector3 min = Camera.main.WorldToScreenPoint(holder.min);
+                            Vector3 max = Camera.main.WorldToScreenPoint(holder.max);
+                            float deltax = max.x - min.x;
+                            float deltay = max.y - min.y;
+                            int height = 0;
+                            int width = 0;
+                            if (Input.mousePosition.x < min.x + deltax / 3)
+                            {
+                                width = 2;
+                            }
+                            else if (Input.mousePosition.x < min.x + deltax * 2f / 3)
+                            {
+                                width = 1;
+                            }
+                            else
+                            {
+                                width = 0;
+                            }
+                            if (Input.mousePosition.y < min.y + deltay / 3)
+                            {
+                                height = 2;
+                            }
+                            else if (Input.mousePosition.y < min.y + deltay * 2f / 3)
+                            {
+                                height = 1;
+                            }
+                            else
+                            {
+                                height = 0;
+                            }
+                            int output = 3 * height + width;
+                            int sign = 1;//Assume player always plays on team 1;
+                            targetDir = getDirectionOut(output, sign);
+                            targetPos = hit.collider.ClosestPoint(target.position - targetDir * .5f);
+
+
+                        }
+                        Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position,targetPos, swinger.transform.right, targetDir);//, swingApex,windEndDir);
+                        if (timeForce == Vector2.zero)
+                            return;
                         StartCoroutine(strikeAction(timeForce.x, timeForce.y, target.GetComponent<Rigidbody>(), -hit.normal));
                     }
                 }
+                return;
+
             }
             else
             {
@@ -194,6 +241,64 @@ public class PlayerController : MonoBehaviour
         {
             reticle.enabled = false;
         }
+    }
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    Vector3 getDirectionOut(int direction, int sign)
+    {
+        Vector3 directionOut = Vector3.zero;
+        switch (direction)
+        {
+            case 1:
+                {
+                    directionOut = (new Vector3(.1f, -.05f, sign)).normalized;
+                    break;
+                }
+            case 2:
+                {
+                    directionOut = (new Vector3(0, -.05f, sign)).normalized;
+                    break;
+                }
+            case 3:
+                {
+                    directionOut = (new Vector3(.1f, -.05f, sign)).normalized;
+                    break;
+                }
+            case 4:
+                {
+                    directionOut = (new Vector3(.1f, 0.1f, sign)).normalized;
+                    break;
+                }
+            case 5:
+                {
+                    directionOut = (new Vector3(0, 0.1f, sign)).normalized;
+                    break;
+                }
+            case 6:
+                {
+                    directionOut = (new Vector3(-.1f, 0.1f, sign)).normalized;
+                    break;
+                }
+            case 7:
+                {
+                    directionOut = (new Vector3(.1f, .2f, sign)).normalized;
+                    break;
+                }
+            case 8:
+                {
+                    directionOut = (new Vector3(0, .2f, sign)).normalized;
+                    break;
+                }
+            case 9:
+                {
+                    directionOut = (new Vector3(-.1f, .2f, sign)).normalized;
+                    break;
+                }
+        }
+        return directionOut;
     }
     private void FixedUpdate()
     {
@@ -239,8 +344,12 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                //Cursor.lockState = CursorLockMode.None;
-                //Cursor.visible = true;
+                if (hideMouseDefault)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
+
                 screenlock = true;
                 currentSpeedMultiplier = slowMultiplier;
                 StartCoroutine(focusAnimation(true));
@@ -251,8 +360,11 @@ public class PlayerController : MonoBehaviour
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                //Cursor.lockState = CursorLockMode.Confined;
-                //Cursor.visible = false;
+                if (hideMouseDefault)
+                {
+                    Cursor.lockState = CursorLockMode.Confined;
+                    Cursor.visible = false;
+                }
                 screenlock = false;
                 currentSpeedMultiplier = 1;
                 StartCoroutine(focusAnimation(false));

@@ -196,7 +196,6 @@ public class SwingPath : MonoBehaviour
             }
             else
             {
-                print("No solution");
                 return Vector3.zero;
             }
         }

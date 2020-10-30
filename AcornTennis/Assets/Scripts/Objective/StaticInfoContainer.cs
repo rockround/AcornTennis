@@ -17,6 +17,6 @@ public static class StaticInfoContainer
 
 
     //Settings
-    internal static int playerMoveSettings;
-    internal static int playerControlSettings;
+    internal static bool useDiscrete;
+    internal static bool hideMouseDefault;
 }

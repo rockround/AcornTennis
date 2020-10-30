@@ -11,12 +11,13 @@ public class SwingPath : MonoBehaviour
     /// <summary>
     /// Center of rotation of arms
     /// </summary>
-    public PlayerController player;
+    public Transform body;
     //How quickly wind up
     public float windSpeedLinear = 10;
     public float swingTorque = 30;
     public float angularAdjustmentSpeed = 100;
 
+    public int swingRadius;
     internal bool canHit(Transform start, Vector3 targetPos, Vector3 endDir)
     {
         Vector3 delta = targetPos - start.position;
@@ -29,10 +30,10 @@ public class SwingPath : MonoBehaviour
 
         bool largeSwing = leftSide ^ leftExit;
 
-        Vector3 BToE = targetPos - player.transform.position;
+        Vector3 BToE = targetPos - body.position;
         float a = Vector3.Dot(endDir, endDir);
         float b = -2 * Vector3.Dot(endDir, BToE);
-        float c = Vector3.Dot(BToE, BToE) - player.swingRadius * player.swingRadius;
+        float c = Vector3.Dot(BToE, BToE) -swingRadius * swingRadius;
         float inSqrt = b * b - 4 * a * c;
         if (inSqrt < 0)
         {
@@ -78,13 +79,13 @@ public class SwingPath : MonoBehaviour
         {
 
 
-            Vector3 windEndPos = calculateWindPos(endDir, targetPos, player.transform.position, player.swingRadius);
+            Vector3 windEndPos = calculateWindPos(endDir, targetPos, body.position, swingRadius);
             if (windEndPos == Vector3.zero)
             {
                 return Vector2.zero;
             }
 
-            Vector3 calculatedPosRotDir = (Quaternion.FromToRotation(start.position - player.transform.position, windEndPos - player.transform.position) * startDir).normalized;
+            Vector3 calculatedPosRotDir = (Quaternion.FromToRotation(start.position - body.position, windEndPos - body.position) * startDir).normalized;
 
             Vector3 windEndDir = -calculatedPosRotDir;
 

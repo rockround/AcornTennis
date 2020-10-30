@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
 
     internal float deltaF, deltaR;
     public float moveSpeed;
-    public float jumpHeight;
     public float maxLookUpDownAngle = 60; // can't look up/down more than 60 dgs
     internal float upDownRotation = 0.0f;
     internal float rightLeftRotation = 0.0f;
@@ -176,7 +175,7 @@ public class PlayerController : MonoBehaviour
                 deltaR = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && !airborn)
             {
                 StartCoroutine(forceField());
             }

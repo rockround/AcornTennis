@@ -17,7 +17,6 @@ public class SwingMotion : MonoBehaviour
     public float swingVelocity;
     public float windVelocity;
     float angularVelocity;
-    bool swinging;
     int currentSwingSign;
     // Start is called before the first frame update
     void Start()
@@ -40,7 +39,6 @@ public class SwingMotion : MonoBehaviour
             finalRight = Quaternion.FromToRotation(currentSwingSign * Vector3.right, finalRightDirection);// * neutralBatRotation;
             targetRotation = Quaternion.Euler(rotationEuler * rotationScale);
             windBack = true;
-            swinging = true;
         }
     }
     internal void release()
@@ -93,7 +91,6 @@ public class SwingMotion : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
             //swingObject.localRotation = neutralBatRotation;
-            swinging = false;
         }
     }
     internal void OnCollisionEnter(Collision collision)

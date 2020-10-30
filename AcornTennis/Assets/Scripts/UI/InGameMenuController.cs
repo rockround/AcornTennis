@@ -99,14 +99,17 @@ public class InGameMenuController : MonoBehaviour
     }
     public void OnReturnButton()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
     public void OnExitButton()
     {
+        Time.timeScale = 1;
         Application.Quit();
     }
     public void OnRestartButton()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void OnControlsButton()

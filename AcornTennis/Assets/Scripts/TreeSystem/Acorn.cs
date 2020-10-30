@@ -20,7 +20,7 @@ public class Acorn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.name == "Ground")
+        if (collision.collider.name == "Ground" && collision.collider.tag == "Dirt")
         {
             if (!alive)
             {
@@ -32,7 +32,7 @@ public class Acorn : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.name == "Ground")
+        if (collision.collider.name == "Ground" && collision.collider.tag == "Dirt")
         {
             grounded = false;
         }

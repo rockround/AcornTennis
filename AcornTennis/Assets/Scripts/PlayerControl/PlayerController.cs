@@ -56,6 +56,10 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 updraftForce = new Vector3(0, 20, 0);
 
+    public Color slowColor;
+
+    public Color rangeColor;
+
     public void Start()
     {
         StartCoroutine(update());
@@ -137,7 +141,6 @@ public class PlayerController : MonoBehaviour
         {
             reticle.enabled = false;
         }
-
     }
     private void FixedUpdate()
     {
@@ -296,6 +299,10 @@ public class PlayerController : MonoBehaviour
                         Rigidbody rb = hit.GetComponent<Rigidbody>();
                         if (rb != null)
                         {
+                            if (hit.GetComponent<Acorn>() != null)
+                            {
+                                hit.GetComponent<MeshRenderer>().materials[1].SetColor("_color", slowColor);
+                            }
                             bodies.Add(rb);
                         }
                     }
@@ -322,6 +329,10 @@ public class PlayerController : MonoBehaviour
                                 bodies.Add(rb);
                                 rb.useGravity = false;
                                 rb.velocity *= slowMultiplier;
+                                if (rb.GetComponent<Acorn>() != null)
+                                {
+                                    rb.GetComponent<MeshRenderer>().materials[1].SetColor("_color", slowColor);
+                                }
                             }
                         }
                     }
@@ -345,6 +356,10 @@ public class PlayerController : MonoBehaviour
                             {
                                 bodies[i].useGravity = true;
                                 bodies[i].velocity /= slowMultiplier;
+                                if (bodies[i].GetComponent<Acorn>() != null)
+                                {
+                                    bodies[i].GetComponent<MeshRenderer>().materials[1].SetColor("_color", Color.black);
+                                }
                             }
                             bodies.RemoveAt(i);
                         }
@@ -358,6 +373,10 @@ public class PlayerController : MonoBehaviour
                 {
                     bodies[i].useGravity = true;
                     bodies[i].velocity /= slowMultiplier;
+                    if (bodies[i].GetComponent<Acorn>() != null)
+                    {
+                        bodies[i].GetComponent<MeshRenderer>().materials[1].SetColor("_color", Color.black);
+                    }
                 }
 
                 bodies.Clear();

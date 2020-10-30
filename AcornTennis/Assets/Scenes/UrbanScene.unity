@@ -7737,6 +7737,8 @@ MonoBehaviour:
   swinger: {fileID: 1080825605}
   groundCollider: {fileID: 717350035}
   updraftForce: {x: 0, y: 6, z: 0}
+  slowColor: {r: 0, g: 0.84148407, b: 1, a: 0.35686275}
+  rangeColor: {r: 0.754717, g: 0.028956704, b: 0, a: 0.30588236}
 --- !u!54 &717350037
 Rigidbody:
   m_ObjectHideFlags: 0

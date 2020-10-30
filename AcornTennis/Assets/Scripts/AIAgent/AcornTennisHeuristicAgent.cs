@@ -165,8 +165,6 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
     //Choose closest one to hit and go to it
     private void FixedUpdate()
     {
-        Physics.OverlapSphere(transform.position, swingRadius);
-
         if (!(airborn && jumping))
         {
             bodyRB.velocity += currentSpeedMultiplier * Physics.gravity * Time.deltaTime;

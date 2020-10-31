@@ -19,4 +19,6 @@ public static class StaticInfoContainer
     //Settings
     internal static bool useDiscrete;
     internal static bool hideMouseDefault;
+
+    internal static bool showTutorial;
 }

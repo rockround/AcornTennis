@@ -29,25 +29,35 @@ public class StartScreenController : MonoBehaviour
         StaticInfoContainer.useDiscrete = PlayerPrefs.GetInt("UseDiscrete", 1)==1;
         StaticInfoContainer.hideMouseDefault = PlayerPrefs.GetInt("HideMouseDefault", 1)==1;
 
-        if(StaticInfoContainer.difficultyProgressUrban >= 0)
+        StaticInfoContainer.showTutorial = PlayerPrefs.GetInt("ShowTutorial", 1)==1;
+
+        if (StaticInfoContainer.showTutorial)
         {
-            for(int i=1; i< StaticInfoContainer.difficultyProgressUrban; i++)
-            {
-                urbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
-            }
+            suburbanStages.transform.GetChild(0).GetComponent<Button>().interactable = false;
+            ruralStages.transform.GetChild(0).GetComponent<Button>().interactable = false;
         }
-        if (StaticInfoContainer.difficultyProgressSuburban >= 0)
+        else
         {
-            for (int i = 1; i < StaticInfoContainer.difficultyProgressSuburban; i++)
+            if (StaticInfoContainer.difficultyProgressUrban >= 0)
             {
-                suburbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                for (int i = 1; i < StaticInfoContainer.difficultyProgressUrban; i++)
+                {
+                    urbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                }
             }
-        }
-        if (StaticInfoContainer.difficultyProgressRural >= 0)
-        {
-            for (int i = 1; i < StaticInfoContainer.difficultyProgressRural; i++)
+            if (StaticInfoContainer.difficultyProgressSuburban >= 0)
             {
-                ruralStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                for (int i = 1; i < StaticInfoContainer.difficultyProgressSuburban; i++)
+                {
+                    suburbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                }
+            }
+            if (StaticInfoContainer.difficultyProgressRural >= 0)
+            {
+                for (int i = 1; i < StaticInfoContainer.difficultyProgressRural; i++)
+                {
+                    ruralStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                }
             }
         }
     }

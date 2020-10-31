@@ -70,6 +70,10 @@ public class PlayerController : MonoBehaviour
     AudioSource slowMotionEnter, slowMotionExit;
     public AudioSource[] allOtherSounds;
 
+    public TutorialTracker tracker;
+
+    bool tutorialActive = false;
+
     public void Start()
     {
         useDiscrete = StaticInfoContainer.useDiscrete;
@@ -82,6 +86,11 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(update());
         StartCoroutine(slowTimeController());
         volume.profile.TryGet(out vignette);
+
+        if (StaticInfoContainer.showTutorial && tracker != null)
+        {
+            tutorialActive = true;
+        }
 
         if (hideMouseDefault)
         {
@@ -147,6 +156,17 @@ public class PlayerController : MonoBehaviour
                 Acorn acorn = col.GetComponent<Acorn>();
                 if (acorn != null)
                 {
+                    if (tutorialActive)
+                    {
+                        if (acorn.transform.position.y > Camera.main.transform.position.y)
+                        {
+                            tracker.continueTutorial(TutorialTracker.MOVEUPTOUP);
+                        }
+                        else
+                        {
+                            tracker.continueTutorial(TutorialTracker.MOVEUPTODOWN);
+                        }
+                    }
                     Color colorClass = (col.ClosestPoint(Camera.main.transform.position) - Camera.main.transform.position).magnitude <= swingRadius ? rangeColor : slowColor;
                     if (possibleAcorns.IndexOf(acorn) != -1)
                     {
@@ -181,15 +201,19 @@ public class PlayerController : MonoBehaviour
             {
                 reticle.transform.position = hit.point;
                 reticle.enabled = true;
-
+                if (tutorialActive)
+                    tracker.continueTutorial(TutorialTracker.TARGET);
                 if (Input.GetMouseButtonDown(0))
                 {
+
                     if (hit.transform.root.name.Contains("Tree"))
                     {
                         print("Hit tree");
                     }
                     else
                     {
+                        if (tutorialActive)
+                            tracker.continueTutorial(TutorialTracker.HIT);
                         Transform target = hit.transform;
                         Vector3 targetPos = hit.point;
                         Vector3 targetDir = -hit.normal;
@@ -233,7 +257,7 @@ public class PlayerController : MonoBehaviour
 
 
                         }
-                        Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position,targetPos, swinger.transform.right, targetDir);//, swingApex,windEndDir);
+                        Vector2 timeForce = swinger.calculateTimeAndForce(swinger.transform, target.position, targetPos, swinger.transform.right, targetDir);//, swingApex,windEndDir);
                         if (timeForce == Vector2.zero)
                             return;
                         StartCoroutine(strikeAction(timeForce.x, timeForce.y, target.GetComponent<Rigidbody>(), -hit.normal));
@@ -352,10 +376,14 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && !airborn)
             {
                 StartCoroutine(forceField());
+                if (tutorialActive)
+                    tracker.continueTutorial(TutorialTracker.UPDRAFT);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                if (tutorialActive)
+                    tracker.continueTutorial(TutorialTracker.SHIFT);
                 if (hideMouseDefault)
                 {
                     Cursor.lockState = CursorLockMode.None;
@@ -370,7 +398,7 @@ public class PlayerController : MonoBehaviour
                     bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
                 }
                 slowMotionEnter.Play();
-                foreach(AudioSource aud in allOtherSounds)
+                foreach (AudioSource aud in allOtherSounds)
                 {
                     aud.volume *= .1f;
                 }

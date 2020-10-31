@@ -19572,6 +19572,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 493301211}
     m_Modifications:
+    - target: {fileID: 7146692773720972711, guid: 3aec83be75ba51c4f84ab6d9503fa7ac,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146692773720972888, guid: 3aec83be75ba51c4f84ab6d9503fa7ac,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7146692773720972889, guid: 3aec83be75ba51c4f84ab6d9503fa7ac,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -77,6 +77,11 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(slowTimeController());
         volume.profile.TryGet(out vignette);
 
+        if (hideMouseDefault)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
+        }
     }
 
     public void OnDestroy()

@@ -40,6 +40,11 @@ public class InGameMenuController : MonoBehaviour
                     thing.SetActive(true);
                 }
                 Time.timeScale = 0;
+                if (StaticInfoContainer.hideMouseDefault)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
             }
             else
             {
@@ -54,6 +59,11 @@ public class InGameMenuController : MonoBehaviour
                     thing.SetActive(false);
                 }
                 Time.timeScale = 1;
+                if (StaticInfoContainer.hideMouseDefault)
+                {
+                    Cursor.lockState = CursorLockMode.Confined;
+                    Cursor.visible = false;
+                }
             }
         }
     }

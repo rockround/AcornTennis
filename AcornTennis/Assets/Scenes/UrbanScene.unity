@@ -4970,7 +4970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &60264309
@@ -6239,7 +6239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479913916
@@ -7443,7 +7443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &635615003
@@ -8025,7 +8025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &690583498
@@ -8482,7 +8482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &752049594
@@ -9273,7 +9273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &906295758
@@ -11175,7 +11175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1218801550
@@ -14007,7 +14007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
+  m_AnchoredPosition: {x: 0, y: 64}
   m_SizeDelta: {x: -400, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1670378592
@@ -14030,9 +14030,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is a quick tutorial on the controls used in this game. Upon a menu
+  m_text: 'This is a quick tutorial on the controls used in this game. Upon a menu
     popping up, clicking will continue the tutorial. Upon completion of the task,
     the next step will pop up.
+
+
+    If you ever need to do the tutorial again, in
+    Settings in the main menu, click replay tutorial.
+
+
+    To exit this window,
+    hit escape, and click the return home to go back to the home screen, or click
+    the exit button the exit.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

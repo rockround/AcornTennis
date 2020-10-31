@@ -162,5 +162,6 @@ public class TutorialTracker : MonoBehaviour
 
         //Tutorial Complete
         StaticInfoContainer.showTutorial = false;
+        PlayerPrefs.SetInt("ShowTutorial", 0);
     }
 }

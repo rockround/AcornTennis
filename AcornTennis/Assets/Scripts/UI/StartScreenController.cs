@@ -113,6 +113,15 @@ public class StartScreenController : MonoBehaviour
         currentMenu.SetActive(true);
         previousMenu.SetActive(false);
     }
+    public void OnReplayTutorial()
+    {
+        StaticInfoContainer.showTutorial = true;
+        int scene = 0;
+        int difficulty = 0;
+        StaticInfoContainer.currentDifficulty = difficulty;
+        StaticInfoContainer.currentStage = scene;
+        SceneManager.LoadScene(scene + 1);
+    }
     public void OnExitButton()
     {
         Time.timeScale = 1;

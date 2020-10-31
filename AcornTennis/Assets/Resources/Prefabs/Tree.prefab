@@ -398,6 +398,30 @@ MonoBehaviour:
   pauseIntervalToGrown: 5
   pauseIntervalToMature: 8
   spawnPeriod: 10
+  leafLit:
+  - {r: 0.4774922, g: 0.9056604, b: 0.36311853, a: 1}
+  - {r: 0.6226738, g: 0.8301887, b: 0.08223564, a: 1}
+  - {r: 0.8584906, g: 0.71797216, b: 0.25511745, a: 1}
+  - {r: 0.95283014, g: 0.65407926, b: 0.44495368, a: 1}
+  leafShaded:
+  - {r: 0.38919127, g: 0.5660378, b: 0.19490919, a: 1}
+  - {r: 0.40473258, g: 0.53773576, b: 0.0887771, a: 1}
+  - {r: 0.6792453, g: 0.55297995, b: 0.33641863, a: 1}
+  - {r: 0.5283019, g: 0.43382677, b: 0.40121037, a: 1}
+  leafHighlightColor:
+  - {r: 0.7760871, g: 0.9245283, b: 0.72828406, a: 0}
+  - {r: 0.8584906, g: 0.85151875, b: 0.101237066, a: 1}
+  - {r: 0.99018663, g: 1, b: 0.47641504, a: 1}
+  - {r: 1, g: 0.8765906, b: 0.78773576, a: 0}
+  leafTextures:
+  - {fileID: 2800000, guid: 7c1ae6ae205449f4cbdbef56d5456fe9, type: 3}
+  - {fileID: 2800000, guid: 87fc39a0197affe4f945312e9f6becd6, type: 3}
+  - {fileID: 2800000, guid: 08baf6792189212468e8c8eb3be4e230, type: 3}
+  - {fileID: 2800000, guid: de9c856630f04d441a2e890988c185b7, type: 3}
+  leaf1: {fileID: 2981209808656910061}
+  leaf2: {fileID: 6170259255805150357}
+  leafTypeFirst: 0
+  leafTypeSecond: 1
   leafArea: {fileID: 5726397954874764843}
   acornPrefab: {fileID: 7317302566102626249, guid: 7690b3b83b690b34c94eadee9ef5987b,
     type: 3}

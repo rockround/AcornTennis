@@ -21,7 +21,15 @@ public class TreeGrowth : MonoBehaviour
     public float pauseIntervalToMature = 8;
     public float spawnPeriod = 10;
 
-
+    public Color[] leafLit, leafShaded, leafHighlightColor;
+    float[] leafSteps = new float[] {6,3.88f,4.99f,.561f };
+    float[] leafOffsets = new float[] {.34f,.55f,.47f,.19f };
+    float[] leafSpreads = new float[] {.652f, .62f,.652f,.738f };
+    float[] leafHighlight = new float[] {.034f, 0,.026f,.005f };
+    public Texture[] leafTextures;
+    public MeshRenderer leaf1, leaf2;
+    Material leaf1Mat, leaf2Mat;
+    public int leafTypeFirst, leafTypeSecond;
 
     public Collider leafArea;
     internal bool alive;
@@ -37,6 +45,8 @@ public class TreeGrowth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        leaf1Mat = leaf1.material;
+        leaf2Mat = leaf2.material;
         grownScale *= .5f + Random.value * .5f;
         saplingScale *= .5f + Random.value * .5f;
         matureScale *= .5f + Random.value * .5f;
@@ -77,6 +87,8 @@ public class TreeGrowth : MonoBehaviour
         float startTime = Time.fixedTime;
         float endTime = startTime + initialGrowthTime;
 
+        int nextLeafType1 = Mathf.Min(3,leafTypeFirst + 1);
+        int nextLeafType2 = Mathf.Min(3,leafTypeSecond + 1);
         while (Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / initialGrowthTime;
@@ -84,6 +96,7 @@ public class TreeGrowth : MonoBehaviour
             Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
+
             yield return null;
         }
 
@@ -96,6 +109,13 @@ public class TreeGrowth : MonoBehaviour
 
         startTime = Time.fixedTime;
         endTime = startTime + growthTime;
+
+        leafTypeFirst = nextLeafType1;
+        leafTypeSecond = nextLeafType2;
+        nextLeafType1 = Mathf.Min(3, leafTypeFirst + 1);
+        nextLeafType2 = Mathf.Min(3, leafTypeSecond + 1);
+        leaf1Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeFirst]);
+        leaf2Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeSecond]);
 
         while (Time.fixedTime < endTime)
         {
@@ -115,7 +135,15 @@ public class TreeGrowth : MonoBehaviour
 
         startTime = Time.fixedTime;
         endTime = startTime + maturityTime;
-        while(Time.fixedTime < endTime)
+
+        leafTypeFirst = nextLeafType1;
+        leafTypeSecond = nextLeafType2;
+        nextLeafType1 = Mathf.Min(3, leafTypeFirst + 1);
+        nextLeafType2 = Mathf.Min(3, leafTypeSecond + 1);
+        leaf1Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeFirst]);
+        leaf2Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeSecond]);
+
+        while (Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / growthTime;
             currentScale = Mathf.Lerp(grownScale, matureScale, progress);
@@ -125,6 +153,11 @@ public class TreeGrowth : MonoBehaviour
             yield return null;
         }
         currentState = GrowthState.Mature;
+
+        leafTypeFirst = nextLeafType1;
+        leafTypeSecond = nextLeafType2;
+        leaf1Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeFirst]);
+        leaf2Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeSecond]);
         StartCoroutine(DropAcorns());
 
     }

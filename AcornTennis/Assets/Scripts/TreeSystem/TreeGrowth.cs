@@ -105,7 +105,8 @@ public class TreeGrowth : MonoBehaviour
     {
         //Vector3 grownTrunkSize = startingTrunkSize * growthScale;
         //Vector3 matureTrunkSize = startingTrunkSize * matureScale;
-
+        leaf1Mat = leaf1.material;
+        leaf2Mat = leaf2.material;
         float currentScale = startScale;
         float startTime = Time.fixedTime;
         float endTime = startTime + initialGrowthTime;

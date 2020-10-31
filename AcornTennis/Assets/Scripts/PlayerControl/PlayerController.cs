@@ -69,9 +69,9 @@ public class PlayerController : MonoBehaviour
     public GameObject slowMotionHolder;
     AudioSource slowMotionEnter, slowMotionExit;
     public AudioSource[] allOtherSounds;
-
+    public AudioSource updraftSound;
     public TutorialTracker tracker;
-
+    public ParticleSystem hitSparks, updraft;
     bool tutorialActive = false;
 
     public void Start()
@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
             body.velocity = (body.mass * body.velocity + 90 * hitDirection * force) / (body.mass + 90);
         }
         tennisServe.Play();
+        hitSparks.Play();
         //Include followthrough
     }
     public IEnumerator forceField()
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
             if (body != null)
                 body.velocity += updraftForce * currentSpeedMultiplier;
         }
-        yield break;
+        yield return new WaitUntil(() => !updraftSound.isPlaying);
     }
     private void Update()
     {
@@ -375,6 +376,8 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E) && !airborn)
             {
+                updraftSound.Play();
+                updraft.Play();
                 StartCoroutine(forceField());
                 if (tutorialActive)
                     tracker.continueTutorial(TutorialTracker.UPDRAFT);

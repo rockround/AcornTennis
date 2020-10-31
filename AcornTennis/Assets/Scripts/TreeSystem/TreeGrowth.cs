@@ -66,6 +66,12 @@ public class TreeGrowth : MonoBehaviour
         float startTime = Time.fixedTime;
         float endTime = startTime + maturityTime;
         float currentScale = grownScale;
+
+        int nextLeafType1 = Mathf.Min(3, leafTypeFirst + 1);
+        int nextLeafType2 = Mathf.Min(3, leafTypeSecond + 1);
+        leaf1Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeFirst]);
+        leaf2Mat.SetTexture("Texture2D_F9676FD0", leafTextures[leafTypeSecond]);
+
         while (Time.fixedTime < endTime)
         {
             float progress = (Time.fixedTime - startTime) / growthTime;
@@ -73,6 +79,23 @@ public class TreeGrowth : MonoBehaviour
             Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
+
+            leaf1Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeFirst], leafLit[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeFirst], leafShaded[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeFirst], leafHighlightColor[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeFirst], leafSteps[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeFirst], leafOffsets[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeFirst], leafSpreads[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeFirst], leafHighlight[nextLeafType1], progress));
+
+            leaf2Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeSecond], leafLit[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeSecond], leafShaded[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeSecond], leafHighlightColor[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeSecond], leafSteps[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeSecond], leafOffsets[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeSecond], leafSpreads[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeSecond], leafHighlight[nextLeafType2], progress));
+
             yield return null;
         }
         currentState = GrowthState.Mature;
@@ -96,6 +119,23 @@ public class TreeGrowth : MonoBehaviour
             Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
+
+            leaf1Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeFirst], leafLit[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeFirst], leafShaded[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeFirst], leafHighlightColor[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeFirst], leafSteps[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeFirst], leafOffsets[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeFirst], leafSpreads[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeFirst], leafHighlight[nextLeafType1], progress));
+
+            leaf2Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeSecond], leafLit[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeSecond], leafShaded[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeSecond], leafHighlightColor[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeSecond], leafSteps[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeSecond], leafOffsets[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeSecond], leafSpreads[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeSecond], leafHighlight[nextLeafType2], progress));
+
 
             yield return null;
         }
@@ -124,6 +164,23 @@ public class TreeGrowth : MonoBehaviour
             Vector3 rawScale = Vector3.one * currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
+
+            leaf1Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeFirst], leafLit[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeFirst], leafShaded[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeFirst], leafHighlightColor[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeFirst], leafSteps[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeFirst], leafOffsets[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeFirst], leafSpreads[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeFirst], leafHighlight[nextLeafType1], progress));
+
+            leaf2Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeSecond], leafLit[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeSecond], leafShaded[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeSecond], leafHighlightColor[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeSecond], leafSteps[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeSecond], leafOffsets[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeSecond], leafSpreads[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeSecond], leafHighlight[nextLeafType2], progress));
+
             yield return null;
         }
         currentState = GrowthState.Grown;
@@ -150,6 +207,23 @@ public class TreeGrowth : MonoBehaviour
             Vector3 rawScale = Vector3.one *currentScale;
             Vector3 displacementUpTrunk = -Vector3.up * rawScale.y * .5f;
             transform.localScale = rawScale;
+
+            leaf1Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeFirst], leafLit[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeFirst], leafShaded[nextLeafType1], progress));
+            leaf1Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeFirst], leafHighlightColor[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeFirst], leafSteps[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeFirst], leafOffsets[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeFirst], leafSpreads[nextLeafType1], progress));
+            leaf1Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeFirst], leafHighlight[nextLeafType1], progress));
+
+            leaf2Mat.SetColor("Color_F689E8B9", Color.Lerp(leafLit[leafTypeSecond], leafLit[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_28180829", Color.Lerp(leafShaded[leafTypeSecond], leafShaded[nextLeafType2], progress));
+            leaf2Mat.SetColor("Color_57D43A16", Color.Lerp(leafHighlightColor[leafTypeSecond], leafHighlightColor[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_CF8B0D8D", Mathf.Lerp(leafSteps[leafTypeSecond], leafSteps[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_F3F6B787", Mathf.Lerp(leafOffsets[leafTypeSecond], leafOffsets[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_38BD3441", Mathf.Lerp(leafSpreads[leafTypeSecond], leafSpreads[nextLeafType2], progress));
+            leaf2Mat.SetFloat("Vector1_ED5ABFD9", Mathf.Lerp(leafHighlight[leafTypeSecond], leafHighlight[nextLeafType2], progress));
+
             yield return null;
         }
         currentState = GrowthState.Mature;

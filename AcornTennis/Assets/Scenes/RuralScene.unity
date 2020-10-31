@@ -3103,6 +3103,10 @@ MonoBehaviour:
   rangeColor: {r: 0.754717, g: 0.028956704, b: 0, a: 0.30588236}
   tennisServe: {fileID: 1762438099}
   slowMotionHolder: {fileID: 790372410}
+  allOtherSounds:
+  - {fileID: 1207585280}
+  - {fileID: 455670354}
+  - {fileID: 582102850}
 --- !u!54 &493301208
 Rigidbody:
   m_ObjectHideFlags: 0

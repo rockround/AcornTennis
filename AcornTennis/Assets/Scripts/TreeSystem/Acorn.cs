@@ -18,6 +18,7 @@ public class Acorn : MonoBehaviour
     public Rigidbody currentRigidbody;
 
     internal Material auraMaterial;
+    public AudioSource impactSound;
 
     private void Start()
     {
@@ -27,6 +28,8 @@ public class Acorn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!impactSound.isPlaying)
+            impactSound.Play();
         if (collision.collider.name == "Ground" && collision.collider.tag == "Dirt")
         {
             if (!alive)
@@ -44,7 +47,7 @@ public class Acorn : MonoBehaviour
             grounded = false;
         }
     }
-    
+
     IEnumerator growthTimer()
     {
         float startTime = Time.time;

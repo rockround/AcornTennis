@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource tennisServe;
     public GameObject slowMotionHolder;
     AudioSource slowMotionEnter, slowMotionExit;
+    public AudioSource[] allOtherSounds;
 
     public void Start()
     {
@@ -369,6 +370,10 @@ public class PlayerController : MonoBehaviour
                     bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
                 }
                 slowMotionEnter.Play();
+                foreach(AudioSource aud in allOtherSounds)
+                {
+                    aud.volume *= .1f;
+                }
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
@@ -381,6 +386,10 @@ public class PlayerController : MonoBehaviour
                 currentSpeedMultiplier = 1;
                 StartCoroutine(focusAnimation(false));
                 slowMotionExit.Play();
+                foreach (AudioSource aud in allOtherSounds)
+                {
+                    aud.volume /= .1f;
+                }
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {

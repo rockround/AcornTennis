@@ -38,23 +38,23 @@ public class StartScreenController : MonoBehaviour
         }
         else
         {
-            if (StaticInfoContainer.difficultyProgressUrban >= 0)
+           //if (StaticInfoContainer.difficultyProgressUrban >= 0)
             {
-                for (int i = 1; i < StaticInfoContainer.difficultyProgressUrban; i++)
+                for (int i = 1; i < 3; i++)
                 {
                     urbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
                 }
             }
-            if (StaticInfoContainer.difficultyProgressSuburban >= 0)
+            //if (StaticInfoContainer.difficultyProgressSuburban >= 0)
             {
-                for (int i = 1; i < StaticInfoContainer.difficultyProgressSuburban; i++)
+                for (int i = 1; i < 3; i++)
                 {
                     suburbanStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
                 }
             }
-            if (StaticInfoContainer.difficultyProgressRural >= 0)
+            //if (StaticInfoContainer.difficultyProgressRural >= 0)
             {
-                for (int i = 1; i < StaticInfoContainer.difficultyProgressRural; i++)
+                for (int i = 1; i < 3; i++)
                 {
                     ruralStages.transform.GetChild(i).GetComponent<Button>().interactable = true;
                 }

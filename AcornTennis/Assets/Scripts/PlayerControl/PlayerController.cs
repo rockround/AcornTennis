@@ -66,13 +66,16 @@ public class PlayerController : MonoBehaviour
     List<Acorn> possibleAcorns;
 
     public AudioSource tennisServe;
-    public AudioSource slowMotion;
+    public GameObject slowMotionHolder;
+    AudioSource slowMotionEnter, slowMotionExit;
 
     public void Start()
     {
         useDiscrete = StaticInfoContainer.useDiscrete;
         hideMouseDefault = StaticInfoContainer.hideMouseDefault;
-
+        AudioSource[] audio = slowMotionHolder.GetComponents<AudioSource>();
+        slowMotionEnter = audio[0];
+        slowMotionExit = audio[1];
         possibleAcorns = new List<Acorn>();
 
         StartCoroutine(update());
@@ -365,6 +368,7 @@ public class PlayerController : MonoBehaviour
                 {
                     bodyRB.velocity = new Vector3(bodyRB.velocity.x, bodyRB.velocity.y * currentSpeedMultiplier, bodyRB.velocity.z);
                 }
+                slowMotionEnter.Play();
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
@@ -376,6 +380,7 @@ public class PlayerController : MonoBehaviour
                 screenlock = false;
                 currentSpeedMultiplier = 1;
                 StartCoroutine(focusAnimation(false));
+                slowMotionExit.Play();
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {

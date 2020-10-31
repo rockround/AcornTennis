@@ -8283,6 +8283,7 @@ MonoBehaviour:
   - {fileID: 2024387401}
   - {fileID: 1539732304}
   - {fileID: 1809566507}
+  tracker: {fileID: 1738605011}
 --- !u!54 &717350037
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14482,7 +14483,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1738605004}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1738605010}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3ab9a1bedd78034db87863f8b0c5d5c, type: 3}
@@ -14530,6 +14531,33 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1738605004}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1738605010 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7997834957440392652, guid: 40a5c37b62beffd4fa2fc9fa17cd056f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1738605004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1738605011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738605010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a28ffe88124c724c85d3f51968b7b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intro: {fileID: 1670378590}
+  moveUpToHanging: {fileID: 752049592}
+  hitShift: {fileID: 60264307}
+  targetAcorn: {fileID: 1218801548}
+  hitAcorn: {fileID: 690583496}
+  moveUpToFallen: {fileID: 479913914}
+  useUpdraft: {fileID: 906295756}
+  conclusion: {fileID: 635615001}
+  panel: {fileID: 1989136783}
 --- !u!1 &1760287835
 GameObject:
   m_ObjectHideFlags: 0
@@ -15740,14 +15768,13 @@ GameObject:
   - component: {fileID: 1989136784}
   - component: {fileID: 1989136787}
   - component: {fileID: 1989136786}
-  - component: {fileID: 1989136785}
   m_Layer: 5
   m_Name: ControlsPanel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1989136784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15776,26 +15803,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -400, y: -180}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1989136785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989136783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a28ffe88124c724c85d3f51968b7b41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  intro: {fileID: 1670378590}
-  moveUpToHanging: {fileID: 752049592}
-  hitShift: {fileID: 60264307}
-  targetAcorn: {fileID: 1218801548}
-  hitAcorn: {fileID: 690583496}
-  moveUpToFallen: {fileID: 479913914}
-  useUpdraft: {fileID: 906295756}
-  conclusion: {fileID: 635615001}
 --- !u!114 &1989136786
 MonoBehaviour:
   m_ObjectHideFlags: 0

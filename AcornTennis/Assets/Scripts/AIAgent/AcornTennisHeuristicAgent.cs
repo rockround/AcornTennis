@@ -42,6 +42,8 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
 
     public float acornSize = .5f;
 
+    public AudioSource hitEffect;
+
     public void Start()
     {
         StartCoroutine(slowTimeController());
@@ -71,6 +73,7 @@ public class AcornTennisHeuristicAgent : MonoBehaviour
         {
             body.velocity = (body.mass * body.velocity + 90 * hitDirection * force) / (body.mass + 90);
         }
+        hitEffect.Play();
         //Include followthrough
     }
     public void tryStrikeAction(Rigidbody target, int direction, int sign)

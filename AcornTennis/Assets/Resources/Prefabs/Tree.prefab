@@ -387,9 +387,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5119a9eaf9331e243a61cbb9be1357ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialGrowthTime: 2
-  growthTime: 2
-  maturityTime: 2
+  initialGrowthTime: 3
+  growthTime: 4
+  maturityTime: 5
   saplingScale: 0.5
   grownScale: 2
   matureScale: 3

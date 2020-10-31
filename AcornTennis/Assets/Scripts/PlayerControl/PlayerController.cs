@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     bool hideMouseDefault = false;
     List<Acorn> possibleAcorns;
 
+    public AudioSource tennisServe;
+    public AudioSource slowMotion;
 
     public void Start()
     {
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             body.velocity = (body.mass * body.velocity + 90 * hitDirection * force) / (body.mass + 90);
         }
+        tennisServe.Play();
         //Include followthrough
     }
     public IEnumerator forceField()

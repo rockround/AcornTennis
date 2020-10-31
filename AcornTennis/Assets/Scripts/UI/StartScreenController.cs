@@ -103,4 +103,9 @@ public class StartScreenController : MonoBehaviour
         currentMenu.SetActive(true);
         previousMenu.SetActive(false);
     }
+    public void OnExitButton()
+    {
+        Time.timeScale = 1;
+        Application.Quit();
+    }
 }
